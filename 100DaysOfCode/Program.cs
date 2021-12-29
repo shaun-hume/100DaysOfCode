@@ -1,35 +1,35 @@
-﻿using _100DaysOfCode;
+﻿using Terminal.Gui;
+using _100DaysOfCode.ViewModels;
+using _100DaysOfCode.Views;
 
-var GameOver = false;
+Application.Init();
+//var top = Application.Top;
 
-Console.WriteLine("What is your name?");
+//// Creates the top-level window to show
+//var win = new Window("Dinomitron #100DaysOfCode")
+//{
+//	X = 0,
+//	Y = 1, // Leave one row for the toplevel menu
 
-Player? player = new(name: Console.ReadLine());
+//	// By using Dim.Fill(), it will automatically resize without manual intervention
+//	Width = Dim.Fill(),
+//	Height = Dim.Fill()
+//};
 
-Console.WriteLine($"Hello {player.GetName()}");
+//top.Add(win);
 
-while (!GameOver)
-{
-    Console.WriteLine("What would you like to do?");
+//var project1Button = new Button(0, 0, "Project 1: Text Adventure Game");
+//var project2Button = new Button(0, 1, "Project 2: Tech Interview Problem");
 
-    var command = Console.ReadLine();
+//// Add some controls, 
+//win.Add(
+//	project1Button,
+//	project2Button
+//);
 
-    if(command.ToLower().Contains("inventory") && command.ToLower().Contains("add"))
-    {
-        Console.WriteLine("What would you like to add to inventory?");
-        var nameOfItem = Console.ReadLine();
-        Console.WriteLine("What is the weight of the item (in kg)?");
-        double weightOfItem = Double.Parse(Console.ReadLine());
+//void project1Button_Click(Object sender, EventArgs e)
+//{
+//	Console.WriteLine("hey");
+//}
 
-        player.AddItemToInventory(nameOfItem,weightOfItem);
-
-        Console.WriteLine($"Item added to inventory. You currently have {player.GetInventoryCount()} items in your inventory, weighing a total of {player.GetInventoryWeight()}kg.");
-    }
-
-    if(command.ToLower().Contains("go left"))
-    {
-        Console.WriteLine("You are eaten by a hungry Allosaurus! 🦖");
-        Console.WriteLine("GAME OVER");
-        GameOver = true;
-    }
-}
+Application.Run(new MainMenuView(new MainMenuViewModel()));

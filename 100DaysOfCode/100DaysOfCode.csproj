@@ -8,4 +8,29 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Terminal.Gui" />
+    <None Remove="Views\" />
+    <None Remove="ViewModels\" />
+    <None Remove="ReactiveUI" />
+    <None Remove="ReactiveUI.Fody" />
+    <None Remove="ReactiveMarbles.ObservableEvents.SourceGenerator" />
+    <None Remove="ViewModels\Project1-TextGame\" />
+    <None Remove="Views\Project1-TextGame\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Terminal.Gui" Version="1.4.0" />
+    <PackageReference Include="ReactiveUI" Version="17.1.9" />
+    <PackageReference Include="ReactiveUI.Fody" Version="17.1.9" />
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.1.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\Project1-TextGame\" />
+    <Folder Include="Views\Project1-TextGame\" />
+  </ItemGroup>
 </Project>
