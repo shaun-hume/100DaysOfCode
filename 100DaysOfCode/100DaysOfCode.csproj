@@ -19,13 +19,13 @@
     <None Remove="Views\Project1-TextGame\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Terminal.Gui" Version="1.4.0" />
     <PackageReference Include="ReactiveUI" Version="17.1.9" />
     <PackageReference Include="ReactiveUI.Fody" Version="17.1.9" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.1.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Terminal.Gui" Version="1.4.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

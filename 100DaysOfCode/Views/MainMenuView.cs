@@ -42,16 +42,34 @@ namespace _100DaysOfCode.Views
 				Width = 40
 			};
 
-			projectButton
-				.Events()
-				.Clicked
-				.InvokeCommand(ViewModel, x => x.Project1Start)
-				.DisposeWith(_disposable);
+			return getRelevantFunction(projectButton);			
+		}
+
+        private Button getRelevantFunction(Button projectButton)
+        {
+			if (projectButton.Text == "Project 1: Text Adventure Game")
+			{
+				projectButton
+					.Events()
+					.Clicked
+					.InvokeCommand(ViewModel, x => x.Project1Start)
+					.DisposeWith(_disposable);
+			}
+
+			if (projectButton.Text == "Project 2: Tech Interview Problem")
+			{
+				projectButton
+					.Events()
+					.Clicked
+					.InvokeCommand(ViewModel, x => x.Project2Start)
+					.DisposeWith(_disposable);
+			}
+			
 			Add(projectButton);
 			return projectButton;
 		}
 
-		object IViewFor.ViewModel
+        object IViewFor.ViewModel
 		{
 			get => ViewModel;
 			set => ViewModel = (MainMenuViewModel)value;

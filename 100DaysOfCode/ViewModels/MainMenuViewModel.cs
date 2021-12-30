@@ -12,9 +12,21 @@ namespace _100DaysOfCode.ViewModels
         public MainMenuViewModel()
         {
             Project1Start = ReactiveCommand.Create(() => {
-                Console.Clear();
-                Application.Init();
-                Application.Run(new Project1View(new Project1ViewModel()));
+				Application.Init();
+
+				var ntop = Application.Top;
+
+				var text = new TextView() { X = 0, Y = 0, Width = Dim.Fill(), Height = Dim.Fill() };
+
+				var win = new Window("Untitled")
+				{
+					X = 0,
+					Y = 1,
+					Width = Dim.Fill(),
+					Height = Dim.Fill()
+				};
+				ntop.Add(win);
+				Application.Run(new Project1View(new Project1ViewModel()));
             }
             );        
         }
