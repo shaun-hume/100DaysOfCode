@@ -8,4 +8,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Terminal.Gui" />
+    <None Remove="Helpers\" />
+    <None Remove="Projects\" />
+    <None Remove="System.Linq" />
+    <None Remove="System.Collections" />
+    <None Remove="Combinatorics" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Terminal.Gui" Version="1.4.0" />
+    <PackageReference Include="Combinatorics" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Projects\" />
+  </ItemGroup>
 </Project>

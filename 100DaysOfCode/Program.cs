@@ -1,35 +1,35 @@
 ﻿using _100DaysOfCode;
 
-var GameOver = false;
+InitialiseAndAskUserForWhatProjectToRun();
 
-Console.WriteLine("What is your name?");
-
-Player? player = new(name: Console.ReadLine());
-
-Console.WriteLine($"Hello {player.GetName()}");
-
-while (!GameOver)
+void InitialiseAndAskUserForWhatProjectToRun()
 {
-    Console.WriteLine("What would you like to do?");
+    Typewrite("Choose the project to run \r\n 1. Project 1: Text Adventure Game \r\n 2. Project 2: Tech Interview Problem\r\n");
 
-    var command = Console.ReadLine();
+    var option = Console.ReadLine();
+    ProcessUserInput(option);
+}
 
-    if(command.ToLower().Contains("inventory") && command.ToLower().Contains("add"))
+void ProcessUserInput(string option)
+{
+    int numericOption;
+
+    if (int.TryParse(option, out numericOption) == false)
     {
-        Console.WriteLine("What would you like to add to inventory?");
-        var nameOfItem = Console.ReadLine();
-        Console.WriteLine("What is the weight of the item (in kg)?");
-        double weightOfItem = Double.Parse(Console.ReadLine());
-
-        player.AddItemToInventory(nameOfItem,weightOfItem);
-
-        Console.WriteLine($"Item added to inventory. You currently have {player.GetInventoryCount()} items in your inventory, weighing a total of {player.GetInventoryWeight()}kg.");
+        Console.Clear();
+        Typewrite("Invalid option selected. Please just write the number for the option. \r\n");
+        InitialiseAndAskUserForWhatProjectToRun();
+        return;
     }
-
-    if(command.ToLower().Contains("go left"))
+    switch (numericOption)
     {
-        Console.WriteLine("You are eaten by a hungry Allosaurus! 🦖");
-        Console.WriteLine("GAME OVER");
-        GameOver = true;
+        case 1:
+            var project1 = new Project1_TextAdventure();
+            break;
+        case 2:
+            var project2 = new Project2_TechInterviewProblem();
+            break;
+        default:
+            break;
     }
 }
