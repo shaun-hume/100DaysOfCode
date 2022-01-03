@@ -45,7 +45,7 @@ namespace _100DaysOfCode
         }
 
         private List<Array> ReturnCountOfAllCombinations(int numberOfSteps, List<int> stairClimbingAbility)
-        {
+        {   
             var combinations = new List<Array>();
             var lowestNumberInList = stairClimbingAbility.Min();
             var numberOfMaxSteps = numberOfSteps / lowestNumberInList;

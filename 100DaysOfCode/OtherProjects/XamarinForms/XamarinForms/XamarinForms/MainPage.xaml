@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinForms.MainPage">
+
+    <StackLayout>
+        <ListView RowHeight="80" HasUnevenRows="False" Margin="10" Header="Dinomitron Xamarin List" ItemsSource="{Binding .}">
+            <ListView.ItemTemplate>
+        <DataTemplate>
+            <ViewCell>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="7*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="🦖" FontSize="Title" VerticalTextAlignment="Center"></Label>
+                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Name}" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Grid.Row="1"  Text="{Binding Description}" />
+
+                </Grid>
+            </ViewCell>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
+
