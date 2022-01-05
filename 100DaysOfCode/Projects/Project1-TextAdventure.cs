@@ -1,5 +1,5 @@
 ﻿using System;
-namespace _100DaysOfCode
+namespace _100DaysOfCode.Projects
 {
 	public class Project1_TextAdventure
 	{
