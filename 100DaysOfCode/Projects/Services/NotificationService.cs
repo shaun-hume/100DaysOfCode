@@ -19,12 +19,12 @@ namespace _100DaysOfCode.Projects.Services
 
         private void SendConsoleNotification(User user)
         {
-            Console.WriteLine($"Username has been changed to: {user.Username}");
+            Typewrite($"Username has been changed to: {user.Username}");
         }
 
         private void SendWebNotification(User user)
         {
-            Console.WriteLine($"Web Updates sent for: {user.Username}");
+            Typewrite($"Web Updates sent for: {user.Username}");
         }
     }
 }

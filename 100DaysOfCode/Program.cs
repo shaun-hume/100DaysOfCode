@@ -5,10 +5,10 @@ InitialiseAndAskUserForWhatProjectToRun();
 
 void InitialiseAndAskUserForWhatProjectToRun()
 {
-    Typewrite("Choose the project to run \r\n" +
-        "1. Project 1: Text Adventure Game \r\n" +
-        "2. Project 2: Tech Interview Problem\r\n" +
-        "3. Project 3: Dependency Injection\r\n");
+    Typewrite("Choose the project to run");
+    Typewrite("1. Project 1: Text Adventure Game");
+    Typewrite("2. Project 2: Tech Interview Problem");
+    Typewrite("3. Project 3: Dependency Injection");
 
     var option = Console.ReadLine();
     ProcessUserInput(option);
@@ -21,7 +21,7 @@ void ProcessUserInput(string option)
     if (int.TryParse(option, out numericOption) == false)
     {
         Console.Clear();
-        Typewrite("Invalid option selected. Please just write the number for the option. \r\n");
+        Typewrite("Invalid option selected. Please just write the number for the option. ");
         InitialiseAndAskUserForWhatProjectToRun();
         return;
     }
