@@ -1,6 +1,8 @@
-﻿namespace _100DaysOfCode
+﻿using _100DaysOfCode.Projects.Interfaces;
+
+namespace _100DaysOfCode
 {
-    internal class Inventory
+    internal class InventoryService : IInventoryService
     {
         List<Item> Items = new List<Item>();
 

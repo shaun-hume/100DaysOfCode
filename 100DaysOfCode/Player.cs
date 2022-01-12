@@ -1,14 +1,17 @@
 ﻿using System;
+using _100DaysOfCode.Projects.Interfaces;
+
 namespace _100DaysOfCode
 {
 	public class Player
 	{
 		string Name;
-		Inventory Inventory = new Inventory(); 
+		IInventoryService InventoryService;
 
-		public Player(string name)
+		public Player(string name, IInventoryService inventoryService)
 		{
 			Name = name;
+			InventoryService = inventoryService;
 		}
 
 		public string GetName()
@@ -18,17 +21,17 @@ namespace _100DaysOfCode
 
 		public double GetInventoryCount()
 		{
-			return Inventory.GetCount();
+			return InventoryService.GetCount();
 		}
 
 		public double GetInventoryWeight()
         {
-			return Inventory.GetWeight();
+			return InventoryService.GetWeight();
         }
 
         internal void AddItemToInventory(string nameOfItem, double weightOfItem)
         {
-			Inventory.AddItemToInventory(nameOfItem, weightOfItem);
+			InventoryService.AddItemToInventory(nameOfItem, weightOfItem);
         }
     }
 }

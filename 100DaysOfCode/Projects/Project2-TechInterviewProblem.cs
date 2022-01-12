@@ -41,7 +41,7 @@ namespace _100DaysOfCode.Projects
         {
             var uniqueWaysCount = (ReturnCountOfAllCombinations(numberOfSteps, stairClimbingAbility)).Count;
             Console.Clear();
-            Typewrite($"There are {uniqueWaysCount} unique ways to climb the stairs.\r\n");
+            Typewrite($"There are {uniqueWaysCount} unique ways to climb the stairs.");
         }
 
         private List<Array> ReturnCountOfAllCombinations(int numberOfSteps, List<int> stairClimbingAbility)
@@ -80,7 +80,7 @@ namespace _100DaysOfCode.Projects
         private int SetNumberOfSteps()
         {
             Console.Clear();
-            Typewrite("How many steps does the staircase have?\r\n");
+            Typewrite("How many steps does the staircase have?");
             var userInput = Console.ReadLine();
             var parsedInput = 0;
 
@@ -91,7 +91,7 @@ namespace _100DaysOfCode.Projects
         private List<int> SetStairClimbingAbility()
         {
             Console.Clear();
-            Typewrite("How many steps can the person do (write the number separated by a comma below)\r\n");
+            Typewrite("How many steps can the person do (write the number separated by a comma below)");
             var userInput = Console.ReadLine();
             var x = userInput.Split(',').Select(Int32.Parse).ToList();
             return x;

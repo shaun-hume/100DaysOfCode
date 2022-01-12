@@ -9,6 +9,10 @@ namespace _100DaysOfCode.Helpers
             {
                 Console.Write(message[i]);
                 System.Threading.Thread.Sleep(15);
+                if (i == message.Length - 1)
+                {
+                    Console.Write("\r\n");
+                }
             }
         }
     }

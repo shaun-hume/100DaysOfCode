@@ -1,4 +1,8 @@
 ﻿using System;
+using _100DaysOfCode.Projects.Interfaces;
+using _100DaysOfCode.Projects.Services;
+using Autofac;
+
 namespace _100DaysOfCode.Projects
 {
 	public class Project1_TextAdventure
@@ -7,15 +11,26 @@ namespace _100DaysOfCode.Projects
 
         public Project1_TextAdventure()
 		{
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<InventoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<TextCommandService>().InstancePerLifetimeScope();
+            var container = builder.Build();
+
+            var inventoryService = container.Resolve<InventoryService>();
+            var textCommandService = container.Resolve<TextCommandService>();
+
             GameOver = false;
-			RunGame();
+			RunGame(inventoryService, textCommandService);
 		}
 
-        private void RunGame()
+        private void RunGame(IInventoryService inventoryService, ITextCommandService textCommandService)
         {
-            Console.WriteLine("What is your name?");
+            Console.Clear();
+            Typewrite("Text Adventure Game!");
+            Typewrite("What is your name?");
 
-            Player? player = new(name: Console.ReadLine());
+            Player? player = new(name: Console.ReadLine(), inventoryService);
             Console.Clear();
 
             while (!GameOver)
@@ -24,24 +39,7 @@ namespace _100DaysOfCode.Projects
 
                 var command = Console.ReadLine();
 
-                if (command.ToLower().Contains("inventory") && command.ToLower().Contains("add"))
-                {
-                    Console.WriteLine("What would you like to add to inventory?");
-                    var nameOfItem = Console.ReadLine();
-                    Console.WriteLine("What is the weight of the item (in kg)?");
-                    double weightOfItem = Double.Parse(Console.ReadLine());
-
-                    player.AddItemToInventory(nameOfItem, weightOfItem);
-
-                    Console.WriteLine($"Item added to inventory. You currently have {player.GetInventoryCount()} items in your inventory, weighing a total of {player.GetInventoryWeight()}kg.");
-                }
-
-                if (command.ToLower().Contains("go left"))
-                {
-                    Console.WriteLine("You are eaten by a hungry Allosaurus! 🦖");
-                    Console.WriteLine("GAME OVER");
-                    GameOver = true;
-                }
+                GameOver = textCommandService.ProcessCommand(player, command);
             }
         }
     }
