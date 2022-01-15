@@ -15,4 +15,4 @@ RUN dotnet publish -c Debug -o out
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/100daysapi/out ./
-ENTRYPOINT ["dotnet", "100daysapi.dll"]
+ENTRYPOINT ["dotnet", "100DaysAPI.dll"]
