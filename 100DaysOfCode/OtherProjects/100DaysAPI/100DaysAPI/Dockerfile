@@ -1,18 +1,18 @@
 ﻿
 #--- .NET CORE API ---#
 
-FROM mcr.microsoft.com/dotnet/core/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY ./src ./100DaysAPI/
+COPY ./src ./100daysapi/
 
 # copy everything else and build app
-WORKDIR /app/100DaysAPI
+WORKDIR /app/100daysapi
 RUN dotnet restore
 RUN dotnet publish -c Debug -o out
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:6.0 AS runtime
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/100DaysAPI/out ./
-ENTRYPOINT ["dotnet", "100DaysAPI.dll"]
+COPY --from=build /app/100daysapi/out ./
+ENTRYPOINT ["dotnet", "100daysapi.dll"]
