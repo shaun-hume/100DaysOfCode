@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY ./src ./100daysapi/
+COPY ./ ./100daysapi/
 
 # copy everything else and build app
 WORKDIR /app/100daysapi
