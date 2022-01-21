@@ -10,12 +10,18 @@
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Autofac" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="DbContexts\" />
+    <None Remove="postgres.passwords" />
+    <None Remove="Autofac" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbContexts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="postgres.passwords" />
   </ItemGroup>
 </Project>

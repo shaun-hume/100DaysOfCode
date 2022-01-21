@@ -1,4 +1,5 @@
 ﻿using System;
+using _100DaysAPI.DbContexts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _100DaysAPI.Controllers
@@ -7,11 +8,14 @@ namespace _100DaysAPI.Controllers
     [Route("[controller]")]
     public class BabyMonitorController : ControllerBase
     {
+        private readonly BabyDbContext _babyDbContext;
+
         private readonly ILogger<BabyMonitorController> _logger;
 
-        public BabyMonitorController(ILogger<BabyMonitorController> logger)
+        public BabyMonitorController(ILogger<BabyMonitorController> logger, BabyDbContext babyDbContext)
         {
             _logger = logger;
+            _babyDbContext = babyDbContext;
         }
             
         [HttpPost]
