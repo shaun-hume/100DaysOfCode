@@ -1,5 +1,8 @@
-﻿using _100DaysAPI.DbContexts;
+﻿using _100DaysAPI;
+using _100DaysAPI.DbContexts;
 using Autofac;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +15,11 @@ builder.Services.AddSwaggerGen();
 
 string connectionText = System.IO.File.ReadAllText("postgres.passwords");
 
-builder.Services.AddScoped((_) => new BabyDbContext(connectionText));
+builder.Services.AddDbContext<BabyDbContext>(options => options.UseNpgsql(connectionText));
 
 var app = builder.Build();
+
+CreateDbIfNotExists(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -30,3 +35,21 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static void CreateDbIfNotExists(IHost host)
+{
+    using (var scope = host.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<BabyDbContext>();
+            DbInitializer.Initialize(context);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "An error occurred creating the DB.");
+        }
+    }
+}
