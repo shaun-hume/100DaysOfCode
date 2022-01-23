@@ -17,6 +17,38 @@ namespace _100DaysAPI.Controllers
             _babyDbContext = babyDbContext;
         }
 
+        [HttpGet]
+        [Route("GetMilk")]
+        public IActionResult GetMilk()
+        {
+            var milkLogs = _babyDbContext.MilkLogs.ToList();
+            return Ok(milkLogs);
+        }
+
+        [HttpGet]
+        [Route("GetExercise")]
+        public IActionResult GetExercise()
+        {
+            var exerciseLogs = _babyDbContext.ExerciseLogs.ToList();
+            return Ok(exerciseLogs);
+        }
+
+        [HttpGett]
+        [Route("GetPoo")]
+        public IActionResult GetPoo()
+        {
+            var pooLogs = _babyDbContext.PooLogs.ToList();
+            return Ok(pooLogs);
+        }
+
+        [HttpGet]
+        [Route("GetSleep")]
+        public IActionResult GetSleep()
+        {
+            var sleepLogs = _babyDbContext.SleepLogs.ToList();
+            return Ok(sleepLogs);
+        }
+
         [HttpPost]
         [Route("AddMilk")]
         public IActionResult AddMilk([FromBody] MilkLog milkLog)
