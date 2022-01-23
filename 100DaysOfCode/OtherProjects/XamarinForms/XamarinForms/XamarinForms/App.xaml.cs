@@ -54,5 +54,16 @@ namespace XamarinForms
             public string Description { get; set; }
         }
     }
+
+    public class MilkLog
+    {
+        public int ID { get; set; }
+        public string Type { get; set; }
+        public decimal Amount { get; set; }
+        public string MeasurementType { get; set; }
+        public string? Comment { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime FinishTime { get; set; }
+    }
 }
 

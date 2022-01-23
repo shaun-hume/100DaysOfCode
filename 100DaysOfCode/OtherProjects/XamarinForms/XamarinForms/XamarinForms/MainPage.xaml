@@ -18,8 +18,8 @@
                         <ColumnDefinition Width="7*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="🦖" FontSize="Title" VerticalTextAlignment="Center"></Label>
-                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Name}" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Grid.Row="1"  Text="{Binding Description}" />
+                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding StartTime}" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Grid.Row="1"  Text="{Binding Amount}{Binding MeasurementAmount}" />
 
                 </Grid>
             </ViewCell>
