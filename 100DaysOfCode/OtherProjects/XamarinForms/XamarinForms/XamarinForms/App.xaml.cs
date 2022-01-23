@@ -25,17 +25,10 @@ namespace XamarinForms
             this.BindingContext = dinos;
         }
 
-        private List<DinosaurResponse> getListOfDinosaurs()
+        private List<MilkLog> getListOfMilkLogs()
         {
-            //var client = new RestClient("https://dinosaur-facts-api.shultzlab.com/dinosaurs");
-            //client.Timeout = -1;
-            //var request = new RestRequest(Method.GET);
-            //IRestResponse response = client.Execute(request);
-            //var x = JsonSerializer.Deserialize<DinosaurResponse>(response.Content);
-            //return x;
-
             var client = new WebClient();
-            var response = client.DownloadString("https://dinosaur-facts-api.shultzlab.com/dinosaurs");
+            var response = client.DownloadString("http://ubuntu/AddMilk");
             var x = JsonConvert.DeserializeObject<List<DinosaurResponse>>(response);
             return x;
         }

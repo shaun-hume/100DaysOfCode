@@ -1,4 +1,5 @@
-﻿using _100DaysAPI;
+﻿using System.Runtime.InteropServices;
+using _100DaysAPI;
 using _100DaysAPI.DbContexts;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+string connectionText = "";
 
-string connectionText = System.IO.File.ReadAllText("postgres.passwords");
+if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+{
+    connectionText = System.IO.File.ReadAllText("postgres.passwords");
+}
+else
+{
+    connectionText = Environment.GetEnvironmentVariable("baby_time_database");
+}
 
 builder.Services.AddDbContext<BabyDbContext>(options => options.UseNpgsql(connectionText));
 
