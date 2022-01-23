@@ -33,7 +33,7 @@ namespace _100DaysAPI.Controllers
             return Ok(exerciseLogs);
         }
 
-        [HttpGett]
+        [HttpGet]
         [Route("GetPoo")]
         public IActionResult GetPoo()
         {

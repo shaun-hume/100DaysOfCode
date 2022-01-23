@@ -10,7 +10,7 @@ namespace XamarinForms
 {
     public partial class App : Application
     {
-        List<DinosaurResponse> dinos = new List<DinosaurResponse>();
+        List<MilkLog> milkLogs = new List<MilkLog>();
         public App ()
         {
             InitializeComponent();
@@ -21,15 +21,15 @@ namespace XamarinForms
 
         protected override void OnStart ()
         {
-            dinos = getListOfDinosaurs();
-            this.BindingContext = dinos;
+            milkLogs = getListOfMilkLogs();
+            this.BindingContext = milkLogs;
         }
 
         private List<MilkLog> getListOfMilkLogs()
         {
             var client = new WebClient();
-            var response = client.DownloadString("http://ubuntu/AddMilk");
-            var x = JsonConvert.DeserializeObject<List<DinosaurResponse>>(response);
+            var response = client.DownloadString("http://ubuntu:5000/GetMilk");
+            var x = JsonConvert.DeserializeObject<List<MilkLog>>(response);
             return x;
         }
 
@@ -40,12 +40,6 @@ namespace XamarinForms
         protected override void OnResume ()
         {
         }
-
-        public class DinosaurResponse
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-        }
     }
 
     public class MilkLog
@@ -54,7 +48,7 @@ namespace XamarinForms
         public string Type { get; set; }
         public decimal Amount { get; set; }
         public string MeasurementType { get; set; }
-        public string? Comment { get; set; }
+        public string Comment { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime FinishTime { get; set; }
     }
