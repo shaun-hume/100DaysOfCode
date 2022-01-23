@@ -16,8 +16,6 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
 EXPOSE 5000
 
 ENV ASPNETCORE_URLS="http://+:5000"
-ARG connection_string=CMD cat postgres.passwords
-ENV baby_time_database=$connection_string
 
 WORKDIR /app
 COPY --from=build /app/100daysapi/out ./
