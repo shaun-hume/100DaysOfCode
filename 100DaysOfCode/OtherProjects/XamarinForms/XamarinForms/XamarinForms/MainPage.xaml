@@ -4,27 +4,37 @@
              x:Class="XamarinForms.MainPage">
 
     <StackLayout>
-        <ListView RowHeight="80" HasUnevenRows="False" Margin="10" Header="Dinomitron Xamarin List" ItemsSource="{Binding .}">
+        <ListView RowHeight="80" HasUnevenRows="False" Margin="10"
+                  Header="Dinomitron Xamarin List"
+                  x:Name="GenericLogsView"
+                  ItemsSource="{Binding GenericLogs}"
+                  IsPullToRefreshEnabled="True"
+                  RefreshCommand="{Binding RefreshGenericLogs}"
+                  IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>
-        <DataTemplate>
-            <ViewCell>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="7*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="🦖" FontSize="Title" VerticalTextAlignment="Center"></Label>
-                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding StartTime}" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Grid.Row="1"  Text="{Binding Amount}{Binding MeasurementAmount}" />
-
-                </Grid>
-            </ViewCell>
-        </DataTemplate>
-    </ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="PressMeButton_Clicked"
+                      CommandParameter="{Binding .}"
+                      Text="Delete" IsDestructive="True" />
+                        </ViewCell.ContextActions>
+                        <Grid VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Icon}" FontSize="Title" VerticalTextAlignment="Center"></Label>
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding StartTime}" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Grid.Row="1"  Text="{Binding HumanReadableAmount}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </StackLayout>
 
