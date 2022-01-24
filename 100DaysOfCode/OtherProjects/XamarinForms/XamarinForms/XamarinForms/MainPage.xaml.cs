@@ -14,29 +14,18 @@ namespace XamarinForms
 {
     public partial class MainPage : ContentPage
     {
-        private bool _isRefreshing = false;
-        public bool IsRefreshing
-        {
-            get { return _isRefreshing; }
-            set
-            {
-                _isRefreshing = value;
-                OnPropertyChanged(nameof(IsRefreshing));
-            }
-        }
+        private DateTime currentlySelectedDate = DateTime.Today;
 
-        public ICommand RefreshGenericLogs
+        public DateTime CurrentlySelectedDate
         {
             get
             {
-                return new Command(async () =>
-                {
-                    IsRefreshing = true;
-
-                    await UpdateMilkLogs();
-
-                    IsRefreshing = false;
-                });
+                return currentlySelectedDate;
+            }
+            set
+            {
+                currentlySelectedDate = value;
+                SelectedDate.Text = CurrentlySelectedDate.ToString("ddd MMM dd, yy");
             }
         }
 
@@ -53,30 +42,83 @@ namespace XamarinForms
         public MainPage()
         {
             InitializeComponent();
+            GenericLogsView.IsRefreshing = true;
+            SelectedDate.Text = CurrentlySelectedDate.ToString("ddd MMM dd, yy");
             GenericLogs = new ObservableCollection<GenericLog>();
             GenericLogsView.ItemsSource = genericLogs;
 
             UpdateMilkLogs();
 
+            GenericLogsView.RefreshCommand = new Command(() =>
+            {
+                UpdateMilkLogs();
+
+                GenericLogsView.IsRefreshing = false;
+            });
+
+            PreviousDayButton.Command = new Command(() =>
+            {
+                GoBackADay();
+            });
+
+            NextDayButton.Command = new Command(() =>
+            {
+                GoForwardADay();
+            });
+
         }
 
         private async Task UpdateMilkLogs()
         {
+            GenericLogs.Clear();
             var client = new WebClient();
             var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetMilk");
             var milkLogs = JsonConvert.DeserializeObject<List<MilkLog>>(response);
-            var genericLogs = milkLogs.Select(x => new GenericLog()
-            {
-                ID = x.ID,
-                Type = "Milk",
-                Icon = "🍼",
-                StartTime = x.StartTime,
-                FinishTime = x.FinishTime
-            }).ToList();
+            var genericLogs = milkLogs
+                .Where(x => x.StartTime > CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Select(x => new GenericLog()
+                {
+                    ID = x.ID,
+                    Type = "Milk",
+                    Icon = "🍼",
+                    StartTime = x.StartTime,
+                    FinishTime = x.FinishTime,
+                    SummaryOfEvent = $"Fed {x.Amount}{x.MeasurementType}"
+                }).ToList();
+
+            var tempObservableCollection = new ObservableCollection<GenericLog>();
             foreach (var log in genericLogs)
             {
-                GenericLogs.Add(log);
+                tempObservableCollection.Add(log);
             }
+            GenericLogsView.ItemsSource = tempObservableCollection;
+
+            if (tempObservableCollection.Count == 0)
+            {
+                GenericLogsView.IsVisible = false;
+                NoItemsLabel.IsVisible = true;
+            }
+            else
+            {
+                GenericLogsView.IsVisible = true;
+                NoItemsLabel.IsVisible = false;
+            }
+        }
+
+        public void GoBackADay()
+        {
+            GenericLogsView.IsRefreshing = true;
+            CurrentlySelectedDate = CurrentlySelectedDate.AddDays(-1);
+            UpdateMilkLogs();
+            GenericLogsView.IsRefreshing = false;
+        }
+
+        public void GoForwardADay()
+        {
+            GenericLogsView.IsRefreshing = true;
+            CurrentlySelectedDate = CurrentlySelectedDate.AddDays(1);
+            UpdateMilkLogs();
+            GenericLogsView.IsRefreshing = false;
         }
 
         protected void PressMeButton_Clicked(object sender, EventArgs e)
@@ -104,6 +146,8 @@ namespace XamarinForms
             public string Icon { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime FinishTime { get; set; }
+            public string StartTimeShort { get { return StartTime.ToString("t"); } }
+            public string SummaryOfEvent { get; set; }
         }
 
         public class MilkLog

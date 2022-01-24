@@ -1,11 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage BackgroundColor="Azure" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinForms.MainPage">
+             x:Class="XamarinForms.MainPage"
+             xmlns:iOS="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             iOS:Page.UseSafeArea="true">
 
     <StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Text="⬅️ Previous" HorizontalOptions="Center" x:Name="PreviousDayButton" Grid.Column="0"></Button>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" x:Name="SelectedDate" Grid.Column="1"/>
+            <Button Text="Next ➡️" HorizontalOptions="Center" x:Name="NextDayButton" Grid.Column="2"></Button>
+        </Grid>
+        <Grid Margin="15" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" x:Name="NoItemsLabel">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label HorizontalOptions="Center" Grid.Row="0" Text="No log entries for this day."></Label>
+        </Grid>
         <ListView RowHeight="80" HasUnevenRows="False" Margin="10"
-                  Header="Dinomitron Xamarin List"
                   x:Name="GenericLogsView"
                   ItemsSource="{Binding GenericLogs}"
                   IsPullToRefreshEnabled="True"
@@ -19,18 +40,24 @@
                       CommandParameter="{Binding .}"
                       Text="Delete" IsDestructive="True" />
                         </ViewCell.ContextActions>
-                        <Grid VerticalOptions="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
+                        <Grid Padding="10">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="7*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Icon}" FontSize="Title" VerticalTextAlignment="Center"></Label>
-                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding StartTime}" FontAttributes="Bold" />
-                            <Label Grid.Column="1" Grid.Row="1"  Text="{Binding HumanReadableAmount}" />
+                            <StackLayout Grid.Column="0">
+                                <Label HorizontalOptions="Center" Grid.Column="0" FontSize="Micro" Text="{Binding StartTimeShort}" FontAttributes="Bold" />
+                                <Label HorizontalOptions="Center" Text="{Binding Icon}" FontSize="Title" VerticalTextAlignment="Center"></Label>
+                            </StackLayout>
+                            <BoxView
+                               Grid.Column="1"
+                               VerticalOptions="Fill"
+                               HorizontalOptions="Start"
+                               WidthRequest="1"
+                               Color="Black"/>
+                            <Label FontSize="Body" VerticalOptions="Center" HorizontalOptions="Start" Grid.Column="3" Text="{Binding SummaryOfEvent}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
