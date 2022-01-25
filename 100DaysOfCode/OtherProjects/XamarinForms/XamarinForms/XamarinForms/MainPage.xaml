@@ -31,7 +31,9 @@
                   ItemsSource="{Binding GenericLogs}"
                   IsPullToRefreshEnabled="True"
                   RefreshCommand="{Binding RefreshGenericLogs}"
-                  IsRefreshing="{Binding IsRefreshing}">
+                  IsRefreshing="{Binding IsRefreshing}"
+                  ItemTapped="LogClicked"
+                  >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

@@ -22,6 +22,7 @@ namespace _100DaysAPI.DbContexts
         public int ID { get; set; }
         public string Type { get; set; }
         public decimal Amount { get; set; }
+        public decimal EstimatedAmount { get; set; }
         public string MeasurementType { get; set; }
         public string? Comment { get; set; }
         public DateTime StartTime { get; set; }

@@ -139,6 +139,12 @@ namespace XamarinForms
             var x = 1;
         }
 
+        public async void LogClicked(object sender, EventArgs e)
+        {
+            var x = e;
+            //await Navigation.PushAsync(new SecondPage());
+        }
+
         public class GenericLog
         {
             public int ID { get; set; }
