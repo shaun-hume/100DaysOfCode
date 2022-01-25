@@ -4,7 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="XamarinForms.MilkDetailView">
     <ContentPage.Content>
-        
+        <StackLayout>
+            <Label x:Name="EstimatedAmount"></Label>
+            <Label x:Name="ActualAmount"></Label>
+            <Label x:Name="Comment"></Label>
+            <Label x:Name="StartTime"></Label>
+            <Label x:Name="FinishTime"></Label>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
 

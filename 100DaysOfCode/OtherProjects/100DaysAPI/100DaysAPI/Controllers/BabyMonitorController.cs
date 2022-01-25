@@ -26,11 +26,27 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpGet]
+        [Route("GetMilk/{id}")]
+        public IActionResult GetMilk(int id)
+        {
+            var milkLog = _babyDbContext.MilkLogs.Where(x => x.ID == id).First();
+            return Ok(milkLog);
+        }
+
+        [HttpGet]
         [Route("GetExercise")]
         public IActionResult GetExercise()
         {
             var exerciseLogs = _babyDbContext.ExerciseLogs.ToList();
             return Ok(exerciseLogs);
+        }
+
+        [HttpGet]
+        [Route("GetExercise/{id}")]
+        public IActionResult GetExercise(int id)
+        {
+            var exerciseLog = _babyDbContext.ExerciseLogs.Where(x => x.ID == id).First();
+            return Ok(exerciseLog);
         }
 
         [HttpGet]
@@ -42,11 +58,27 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpGet]
+        [Route("GetPoo/{id}")]
+        public IActionResult GetPoo(int id)
+        {
+            var pooLog = _babyDbContext.PooLogs.Where(x => x.ID == id).First();
+            return Ok(pooLog);
+        }
+
+        [HttpGet]
         [Route("GetSleep")]
         public IActionResult GetSleep()
         {
             var sleepLogs = _babyDbContext.SleepLogs.ToList();
             return Ok(sleepLogs);
+        }
+
+        [HttpGet]
+        [Route("GetSleep/{id}")]
+        public IActionResult GetSleep(int id)
+        {
+            var sleepLog = _babyDbContext.SleepLogs.Where(x => x.ID == id).First();
+            return Ok(sleepLog);
         }
 
         [HttpPost]
@@ -55,7 +87,6 @@ namespace _100DaysAPI.Controllers
         {
             _babyDbContext.MilkLogs.Add(milkLog);
             _babyDbContext.SaveChanges();
-            var list = _babyDbContext.MilkLogs.ToList();
             return Ok();
         }
 

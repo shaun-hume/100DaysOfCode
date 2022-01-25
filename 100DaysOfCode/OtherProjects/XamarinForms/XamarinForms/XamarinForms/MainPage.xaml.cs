@@ -141,8 +141,13 @@ namespace XamarinForms
 
         public async void LogClicked(object sender, EventArgs e)
         {
-            var x = e;
-            //await Navigation.PushAsync(new SecondPage());
+            var listView = sender as ListView;
+            var selectedLog = listView.SelectedItem as GenericLog;
+
+            if (selectedLog.Type == "Milk")
+            {
+                Navigation.PushAsync(new MilkDetailView(selectedLog.ID));
+            }
         }
 
         public class GenericLog
@@ -161,6 +166,7 @@ namespace XamarinForms
             public int ID { get; set; }
             public string Type { get; set; }
             public decimal Amount { get; set; }
+            public decimal EstimatedAmount { get; set; }
             public string MeasurementType { get; set; }
             public string Comment { get; set; }
             public DateTime StartTime { get; set; }
