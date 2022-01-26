@@ -124,6 +124,7 @@ namespace _100DaysAPI.Controllers
             var log = _babyDbContext.MilkLogs.Where(x => x.ID == milkLog.ID).First();
             log.ID = milkLog.ID;
             log.Type = milkLog.Type;
+            log.EstimatedAmount = milkLog.EstimatedAmount;
             log.Amount = milkLog.Amount;
             log.MeasurementType = milkLog.MeasurementType;
             log.Comment = milkLog.Comment;
@@ -131,7 +132,6 @@ namespace _100DaysAPI.Controllers
             log.FinishTime = milkLog.FinishTime;
             
             _babyDbContext.SaveChanges();
-            var list = _babyDbContext.MilkLogs.ToList();
             return Ok();
         }
 

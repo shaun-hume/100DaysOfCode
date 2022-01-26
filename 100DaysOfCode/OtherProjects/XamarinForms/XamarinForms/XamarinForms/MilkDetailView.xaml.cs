@@ -14,6 +14,7 @@ namespace XamarinForms
     {
         private MilkLog originalMilkLog;
         private MilkLog _newMilkLog = new MilkLog();
+        public bool SaveChangesButtonIsEnabled { get; set; }
         public MilkLog NewMilkLog {
             get
             {
@@ -28,39 +29,41 @@ namespace XamarinForms
             }
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-            if(originalMilkLog != null && _newMilkLog != null) UpdateStatusOfSaveButton();
-        }
+        //todo: implement enabling button only when changes have been detected. The issue was that changes to the object are not detected, only changes to the entire object
 
-        private void UpdateStatusOfSaveButton()
-        {
-            if (originalMilkLog == null) SaveChangesButton.IsEnabled = false;
-            else
-            {
-                if (originalMilkLog.ID == _newMilkLog.ID &&
-                    originalMilkLog.Type == _newMilkLog.Type &&
-                    originalMilkLog.Amount == _newMilkLog.Amount &&
-                    originalMilkLog.EstimatedAmount == _newMilkLog.EstimatedAmount &&
-                    originalMilkLog.MeasurementType == _newMilkLog.MeasurementType &&
-                    originalMilkLog.Comment == _newMilkLog.Comment &&
-                    originalMilkLog.StartTime == _newMilkLog.StartTime &&
-                    originalMilkLog.FinishTime == _newMilkLog.FinishTime)
-                {
-                    SaveChangesButton.IsEnabled = false;
-                }
-                else SaveChangesButton.IsEnabled = true;
-            }
-        }
+        //protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    base.OnPropertyChanged(propertyName);
+        //    if(originalMilkLog != null && _newMilkLog != null) UpdateStatusOfSaveButton();
+        //}
 
-        public bool SaveChangesButtonIsEnabled { get; set; }
+        //private void UpdateStatusOfSaveButton()
+        //{
+        //    if (originalMilkLog == null) SaveChangesButton.IsEnabled = false;
+        //    else
+        //    {
+        //        if (originalMilkLog.ID == _newMilkLog.ID &&
+        //            originalMilkLog.Type == _newMilkLog.Type &&
+        //            originalMilkLog.Amount == _newMilkLog.Amount &&
+        //            originalMilkLog.EstimatedAmount == _newMilkLog.EstimatedAmount &&
+        //            originalMilkLog.MeasurementType == _newMilkLog.MeasurementType &&
+        //            originalMilkLog.Comment == _newMilkLog.Comment &&
+        //            originalMilkLog.StartTime == _newMilkLog.StartTime &&
+        //            originalMilkLog.FinishTime == _newMilkLog.FinishTime)
+        //        {
+        //            SaveChangesButton.IsEnabled = false;
+        //        }
+        //        else SaveChangesButton.IsEnabled = true;
+        //    }
+        //}
+
 
         public MilkDetailView(int id)
         {
             InitializeComponent();
             BindingContext = this;
             UpdateMilkLog(id);
+            SaveChangesButton.Command = new Command(async () => { await SaveMilkLog(); });
         }
 
         private void UpdateMilkLog(int id)
@@ -69,17 +72,23 @@ namespace XamarinForms
             var response = client.DownloadString(string.Concat("http://ubuntu:5000/BabyMonitor/GetMilk/", id));
             originalMilkLog = JsonConvert.DeserializeObject<MilkLog>(response);
             NewMilkLog = originalMilkLog;
+        }
 
-            //EstimatedAmount = originalMilkLog.EstimatedAmount;
-            //EstimatedAmountMeasurementType.Text = originalMilkLog.MeasurementType;
-            //ActualAmount.Text = originalMilkLog.Amount.ToString();
-            //ActualAmountMeasurementType.Text = originalMilkLog.MeasurementType;
-            //Comment.Text = originalMilkLog.Comment;
-            //StartDate.Date = originalMilkLog.StartTime;
-            //StartTime.Time = new TimeSpan(originalMilkLog.StartTime.Hour, originalMilkLog.StartTime.Minute, originalMilkLog.StartTime.Second);
-            //FinishDate.Date = originalMilkLog.FinishTime;
-            //FinishTime.Time = new TimeSpan(originalMilkLog.FinishTime.Hour, originalMilkLog.FinishTime.Minute, originalMilkLog.FinishTime.Second);
-
+        private async Task SaveMilkLog()
+        {
+            try
+            {
+                var client = new RestClient("http://ubuntu:5000/BabyMonitor/UpdateMilk");
+                var request = new RestRequest();
+                request.AddHeader("Content-Type", "application/json");
+                var body = JsonConvert.SerializeObject(_newMilkLog);
+                request.AddParameter("application/json", body, ParameterType.RequestBody);
+                var response = await client.PatchAsync(request);
+            }
+            catch (Exception ex)
+            {
+                var x = ex;
+            }
         }
     }
 }
