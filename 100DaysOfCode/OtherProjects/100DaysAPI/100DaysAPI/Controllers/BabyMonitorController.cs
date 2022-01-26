@@ -117,11 +117,11 @@ namespace _100DaysAPI.Controllers
             return Ok();
         }
 
-        [HttpPatch]
-        [Route("UpdateMilk")]
-        public IActionResult UpdateMilk([FromBody] MilkLog milkLog)
+        [HttpPut]
+        [Route("UpdateMilk/{id}")]
+        public IActionResult UpdateMilk(int Id, [FromBody] MilkLog milkLog)
         {
-            var log = _babyDbContext.MilkLogs.Where(x => x.ID == milkLog.ID).First();
+            var log = _babyDbContext.MilkLogs.Where(x => x.ID == Id).First();
             log.ID = milkLog.ID;
             log.Type = milkLog.Type;
             log.EstimatedAmount = milkLog.EstimatedAmount;
@@ -135,7 +135,7 @@ namespace _100DaysAPI.Controllers
             return Ok();
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("UpdateExercise")]
         public IActionResult UpdateExercise([FromBody] ExerciseLog exerciseLog)
         {
@@ -150,7 +150,7 @@ namespace _100DaysAPI.Controllers
             return Ok();
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("UpdatePoo")]
         public IActionResult UpdatePoo([FromBody] PooLog pooLog)
         {
@@ -165,7 +165,7 @@ namespace _100DaysAPI.Controllers
             return Ok();
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("UpdateSleep")]
         public IActionResult UpdateSleep([FromBody] SleepLog sleepLog)
         {

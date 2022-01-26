@@ -78,12 +78,12 @@ namespace XamarinForms
         {
             try
             {
-                var client = new RestClient("http://ubuntu:5000/BabyMonitor/UpdateMilk");
+                var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateMilk/{_newMilkLog.ID}");
                 var request = new RestRequest();
                 request.AddHeader("Content-Type", "application/json");
                 var body = JsonConvert.SerializeObject(_newMilkLog);
-                request.AddParameter("application/json", body, ParameterType.RequestBody);
-                var response = await client.PatchAsync(request);
+                request.AddParameter("text/json", body, ParameterType.RequestBody);
+                var response = await client.PutAsync<MilkLog>(request);
             }
             catch (Exception ex)
             {
