@@ -68,6 +68,12 @@ namespace XamarinForms
 
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            UpdateMilkLogs();
+        }
+
         private async Task UpdateMilkLogs()
         {
             GenericLogs.Clear();
@@ -150,7 +156,7 @@ namespace XamarinForms
             }
         }
 
-        public class GenericLog
+        public class GenericLog : INotifyPropertyChanged
         {
             public int ID { get; set; }
             public string Type { get; set; }
@@ -159,6 +165,8 @@ namespace XamarinForms
             public DateTime FinishTime { get; set; }
             public string StartTimeShort { get { return StartTime.ToString("t"); } }
             public string SummaryOfEvent { get; set; }
+
+            public event PropertyChangedEventHandler PropertyChanged;
         }
 
         public class MilkLog : INotifyPropertyChanged

@@ -3,9 +3,16 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="XamarinForms.MilkDetailView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="SaveChangesButton" Text="Save Changes"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Grid>
+            <StackLayout x:Name="LoadingLayout" VerticalOptions="CenterAndExpand">
+                <ActivityIndicator x:Name="LoadingLayoutIndicator" IsRunning="True"></ActivityIndicator>
+            </StackLayout>
+
+            <Grid x:Name="DataLayout">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -37,7 +44,6 @@
                 <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewMilkLog.FinishTime.Date, Mode=TwoWay}"></DatePicker>
                 <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewMilkLog.FinishTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
             </Grid>
-            <Button x:Name="SaveChangesButton" Text="Save Changes"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

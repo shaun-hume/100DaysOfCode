@@ -15,7 +15,8 @@ namespace XamarinForms
         private MilkLog originalMilkLog;
         private MilkLog _newMilkLog = new MilkLog();
         public bool SaveChangesButtonIsEnabled { get; set; }
-        public MilkLog NewMilkLog {
+        public MilkLog NewMilkLog
+        {
             get
             {
                 return _newMilkLog;
@@ -62,33 +63,37 @@ namespace XamarinForms
         {
             InitializeComponent();
             BindingContext = this;
-            UpdateMilkLog(id);
+            Task.Run(async () => { await UpdateMilkLog(id); });
             SaveChangesButton.Command = new Command(async () => { await SaveMilkLog(); });
         }
 
-        private void UpdateMilkLog(int id)
+        private async Task UpdateMilkLog(int id)
         {
-            var client = new WebClient();
-            var response = client.DownloadString(string.Concat("http://ubuntu:5000/BabyMonitor/GetMilk/", id));
-            originalMilkLog = JsonConvert.DeserializeObject<MilkLog>(response);
-            NewMilkLog = originalMilkLog;
+            DataLayout.IsVisible = false;
+            LoadingLayout.IsVisible = true;
+            try
+            {
+                var client = new WebClient();
+                var url = new Uri(string.Concat("http://ubuntu:5000/BabyMonitor/GetMilk/", id));
+                var response = await client.DownloadStringTaskAsync(url);
+                originalMilkLog = JsonConvert.DeserializeObject<MilkLog>(response);
+                NewMilkLog = originalMilkLog;
+            }
+            catch (Exception ex) {
+                var x = ex;
+            }
+            DataLayout.IsVisible = true;
+            LoadingLayout.IsVisible = false;
         }
 
         private async Task SaveMilkLog()
         {
-            try
-            {
-                var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateMilk/{_newMilkLog.ID}");
-                var request = new RestRequest();
-                request.AddHeader("Content-Type", "application/json");
-                var body = JsonConvert.SerializeObject(_newMilkLog);
-                request.AddParameter("text/json", body, ParameterType.RequestBody);
-                var response = await client.PutAsync<MilkLog>(request);
-            }
-            catch (Exception ex)
-            {
-                var x = ex;
-            }
+            var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateMilk/{_newMilkLog.ID}");
+            var request = new RestRequest();
+            request.AddHeader("Content-Type", "application/json; charset=utf-8");
+            request.AddJsonBody(_newMilkLog);
+            var response = await client.PutAsync(request);
+            await Navigation.PopAsync();
         }
     }
 }
