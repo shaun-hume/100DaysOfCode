@@ -161,7 +161,7 @@ namespace XamarinForms
             public string SummaryOfEvent { get; set; }
         }
 
-        public class MilkLog
+        public class MilkLog : INotifyPropertyChanged
         {
             public int ID { get; set; }
             public string Type { get; set; }
@@ -179,6 +179,8 @@ namespace XamarinForms
                     return Amount + " " + MeasurementType;
                 }
             }
+
+            public event PropertyChangedEventHandler PropertyChanged;
         }
     }
 }

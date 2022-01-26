@@ -6,6 +6,7 @@ using static XamarinForms.MainPage;
 using RestSharp;
 using Newtonsoft.Json;
 using System.Net;
+using System.Runtime.CompilerServices;
 
 namespace XamarinForms
 {
@@ -20,8 +21,17 @@ namespace XamarinForms
             }
             set
             {
-                _newMilkLog = value;
+                if (_newMilkLog != originalMilkLog)
+                {
+                    _newMilkLog = value;
+                }
             }
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            if(originalMilkLog != null && _newMilkLog != null) UpdateStatusOfSaveButton();
         }
 
         private void UpdateStatusOfSaveButton()
