@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="XamarinForms.PooDetailView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="SaveChangesButton" Text="Save Changes"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="LoadingLayout" VerticalOptions="CenterAndExpand">
+                <ActivityIndicator x:Name="LoadingLayoutIndicator" IsRunning="True"></ActivityIndicator>
+            </StackLayout>
+
+            <Grid x:Name="DataLayout">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="0" Text="Estimated Amount"></Label>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="1" Text="Actual Amount"></Label>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="2" Text="Comments"></Label>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="3" Text="Start Time"></Label>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="4" Text="Finish Time"></Label>
+
+                <Entry VerticalTextAlignment="Center" Keyboard="Numeric" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding NewPooLog.EstimatedAmount, Mode=TwoWay}"></Entry>
+                <Label VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="2"  HorizontalTextAlignment="Start" Text="{Binding NewPooLog.MeasurementType}"></Label>
+
+                <Entry VerticalTextAlignment="Center" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding NewPooLog.Amount, Mode=TwoWay}"></Entry>
+                <Label VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="Start" Text="{Binding NewPooLog.MeasurementType}"></Label>
+
+
+                <Editor Grid.Row="2" Grid.Column="1" Text="{Binding NewPooLog.Comment}"></Editor>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding NewPooLog.StartTime.Date, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding NewPooLog.StartTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewPooLog.FinishTime.Date, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewPooLog.FinishTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+

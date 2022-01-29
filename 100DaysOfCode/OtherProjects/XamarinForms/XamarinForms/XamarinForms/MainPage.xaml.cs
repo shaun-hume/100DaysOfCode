@@ -190,6 +190,32 @@ namespace XamarinForms
 
             public event PropertyChangedEventHandler PropertyChanged;
         }
+
+        public class PooLog
+        {
+            public int ID { get; set; }
+            public string Type { get; set; }
+            public string Comment { get; set; }
+            public string Colour { get; set; }
+            public DateTime OccurrenceTime { get; set; }
+        }
+
+        public class SleepLog
+        {
+            public int ID { get; set; }
+            public string Comment { get; set; }
+            public DateTime StartTime { get; set; }
+            public DateTime FinishTime { get; set; }
+        }
+
+        public class ExerciseLog
+        {
+            public int ID { get; set; }
+            public string Type { get; set; }
+            public string Comment { get; set; }
+            public DateTime StartTime { get; set; }
+            public DateTime FinishTime { get; set; }
+        }
     }
 }
 

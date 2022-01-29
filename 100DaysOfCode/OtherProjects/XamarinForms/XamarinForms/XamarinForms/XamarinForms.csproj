@@ -32,4 +32,15 @@
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="PooDetailView.cs">
+      <DependentUpon>PooDetailView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="PooDetailView.xaml">
+      <LogicalName>XamarinForms.SleepDetailView.xaml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
