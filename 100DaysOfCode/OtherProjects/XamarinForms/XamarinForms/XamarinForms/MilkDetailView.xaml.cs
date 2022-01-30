@@ -12,7 +12,6 @@ namespace XamarinForms
     {
         private MilkLog originalMilkLog;
         private MilkLog _newMilkLog = new MilkLog();
-        public bool SaveChangesButtonIsEnabled { get; set; }
         public MilkLog NewMilkLog
         {
             get
@@ -27,6 +26,7 @@ namespace XamarinForms
                 }
             }
         }
+        public bool SaveChangesButtonIsEnabled { get; set; }
 
         //todo: implement enabling button only when changes have been detected. The issue was that changes to the object are not detected, only changes to the entire object
 
@@ -76,6 +76,13 @@ namespace XamarinForms
                 var response = await client.DownloadStringTaskAsync(url);
                 originalMilkLog = JsonConvert.DeserializeObject<MilkLog>(response);
                 NewMilkLog = originalMilkLog;
+                var StartTime = originalMilkLog.StartTime.ToLocalTime();
+                var FinishTime = originalMilkLog.FinishTime.ToLocalTime();
+
+                StartDatePicker.Date = StartTime;
+                StartTimePicker.Time = StartTime.TimeOfDay;
+                FinishDatePicker.Date = FinishTime;
+                FinishTimePicker.Time = FinishTime.TimeOfDay;
             }
             catch (Exception ex) {
                 var x = ex;
@@ -89,6 +96,8 @@ namespace XamarinForms
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateMilk/{_newMilkLog.ID}");
             var request = new RestRequest();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
+            _newMilkLog.StartTime = new DateTime(StartDatePicker.Date.Ticks + StartTimePicker.Time.Ticks).ToUniversalTime();
+            _newMilkLog.FinishTime = new DateTime(FinishDatePicker.Date.Ticks + FinishTimePicker.Time.Ticks).ToUniversalTime();
             request.AddJsonBody(_newMilkLog);
             var response = await client.PutAsync(request);
             await Navigation.PopAsync();

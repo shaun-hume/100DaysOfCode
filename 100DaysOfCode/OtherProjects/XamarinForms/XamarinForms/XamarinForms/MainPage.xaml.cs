@@ -113,14 +113,14 @@ namespace XamarinForms
             var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetMilk");
             var milkLogs = JsonConvert.DeserializeObject<List<MilkLog>>(response);
             var genericLogs = milkLogs
-                .Where(x => x.StartTime > CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Where(x => x.StartTime.ToLocalTime() >= CurrentlySelectedDate && x.StartTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
                 .Select(x => new GenericLog()
                 {
                     ID = x.ID,
                     Type = "Milk",
                     Icon = "🍼",
-                    StartTime = x.StartTime,
-                    FinishTime = x.FinishTime,
+                    StartTime = x.StartTime.ToLocalTime(),
+                    FinishTime = x.FinishTime.ToLocalTime(),
                     SummaryOfEvent = $"Fed {x.Amount}{x.MeasurementType}"
                 }).ToList();
 
@@ -150,7 +150,7 @@ namespace XamarinForms
             var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetExercise");
             var exerciseLogs = JsonConvert.DeserializeObject<List<ExerciseLog>>(response);
             var genericLogs = exerciseLogs
-                .Where(x => x.StartTime > CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Where(x => x.StartTime >= CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
                 .Select(x => new GenericLog()
                 {
                     ID = x.ID,
@@ -187,7 +187,7 @@ namespace XamarinForms
             var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetPoo");
             var pooLogs = JsonConvert.DeserializeObject<List<PooLog>>(response);
             var genericLogs = pooLogs
-                .Where(x => x.OccurrenceTime > CurrentlySelectedDate && x.OccurrenceTime < CurrentlySelectedDate.AddDays(1))
+                .Where(x => x.OccurrenceTime >= CurrentlySelectedDate && x.OccurrenceTime < CurrentlySelectedDate.AddDays(1))
                 .Select(x => new GenericLog()
                 {
                     ID = x.ID,
@@ -224,7 +224,7 @@ namespace XamarinForms
             var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetSleep");
             var sleepLogs = JsonConvert.DeserializeObject<List<SleepLog>>(response);
             var genericLogs = sleepLogs
-                .Where(x => x.StartTime > CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Where(x => x.StartTime >= CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
                 .Select(x => new GenericLog()
                 {
                     ID = x.ID,

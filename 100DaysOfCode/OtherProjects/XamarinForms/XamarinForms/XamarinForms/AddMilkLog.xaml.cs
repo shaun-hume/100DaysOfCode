@@ -10,6 +10,9 @@ namespace XamarinForms
     public partial class AddMilkLog : ContentPage
     {
         private MilkLog _newMilkLog = new MilkLog();
+        public DateTime StartTime { get; set; }
+        public DateTime FinishTime { get; set; }
+
         public MilkLog NewMilkLog
         {
             get => _newMilkLog;
@@ -21,8 +24,8 @@ namespace XamarinForms
             InitializeComponent();
             NewMilkLog.MeasurementType = "mL";
             NewMilkLog.Type = "Breast Milk";
-            NewMilkLog.StartTime = DateTime.Now;
-            NewMilkLog.FinishTime = DateTime.Now;
+            StartTime = DateTime.Now;
+            FinishTime = DateTime.Now;
 
             BindingContext = this;
             SaveChangesButton.Command = new Command(async () => { await SaveMilkLog(); });
@@ -33,6 +36,8 @@ namespace XamarinForms
             try
             {
                 var milkLog = _newMilkLog;
+                milkLog.StartTime = StartTime.ToUniversalTime();
+                milkLog.FinishTime = FinishTime.ToUniversalTime();
                 var client = new RestClient($"http://ubuntu:5000/BabyMonitor/AddMilk");
 
                 var test = JsonConvert.SerializeObject(milkLog);
