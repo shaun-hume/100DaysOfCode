@@ -2,16 +2,12 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="XamarinForms.SleepDetailView">
+    x:Class="XamarinForms.AddMilkLog">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="SaveChangesButton" Text="Save Changes"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout x:Name="LoadingLayout" VerticalOptions="CenterAndExpand">
-                <ActivityIndicator x:Name="LoadingLayoutIndicator" IsRunning="True"></ActivityIndicator>
-            </StackLayout>
-
             <Grid x:Name="DataLayout">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -31,18 +27,17 @@
                 <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="3" Text="Start Time"></Label>
                 <Label VerticalTextAlignment="Center" HorizontalTextAlignment="End" Grid.Column="0" Grid.Row="4" Text="Finish Time"></Label>
 
-                <Entry VerticalTextAlignment="Center" Keyboard="Numeric" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding NewSleepLog.EstimatedAmount, Mode=TwoWay}"></Entry>
-                <Label VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="2"  HorizontalTextAlignment="Start" Text="{Binding NewSleepLog.MeasurementType}"></Label>
+                <Entry VerticalTextAlignment="Center" Keyboard="Numeric" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding EstimatedAmount, Mode=TwoWay}"></Entry>
+                <Label VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="2"  HorizontalTextAlignment="Start" Text="{Binding MeasurementType}"></Label>
 
-                <Entry VerticalTextAlignment="Center" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding NewSleepLog.Amount, Mode=TwoWay}"></Entry>
-                <Label VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="Start" Text="{Binding NewSleepLog.MeasurementType}"></Label>
+                <Entry VerticalTextAlignment="Center" Keyboard="Numeric" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding Amount, Mode=TwoWay}"></Entry>
+                <Label VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="Start" Text="{Binding MeasurementType}"></Label>
 
-
-                <Editor Grid.Row="2" Grid.Column="1" Text="{Binding NewSleepLog.Comment}"></Editor>
-                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding NewSleepLog.StartTime.Date, Mode=TwoWay}"></DatePicker>
-                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding NewSleepLog.StartTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
-                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewSleepLog.FinishTime.Date, Mode=TwoWay}"></DatePicker>
-                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewSleepLog.FinishTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
+                <Editor Grid.Row="2" Grid.Column="1" Text="{Binding Comment}"></Editor>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding StartTime.Date, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding StartTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding FinishTime.Date, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding FinishTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

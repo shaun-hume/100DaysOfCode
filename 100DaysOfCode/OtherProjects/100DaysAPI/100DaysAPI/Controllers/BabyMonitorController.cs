@@ -85,9 +85,16 @@ namespace _100DaysAPI.Controllers
         [Route("AddMilk")]
         public IActionResult AddMilk([FromBody] MilkLog milkLog)
         {
-            _babyDbContext.MilkLogs.Add(milkLog);
-            _babyDbContext.SaveChanges();
-            return Ok();
+            try
+            {
+                _babyDbContext.MilkLogs.Add(milkLog);
+                _babyDbContext.SaveChanges();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpPost]

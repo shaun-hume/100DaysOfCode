@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static XamarinForms.MainPage;
 using RestSharp;
 using Newtonsoft.Json;
 using System.Net;
-using System.Runtime.CompilerServices;
 
 namespace XamarinForms
 {

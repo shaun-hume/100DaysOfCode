@@ -66,6 +66,35 @@ namespace XamarinForms
                 GoForwardADay();
             });
 
+            NewLogButton.Command = new Command(async () =>
+            {
+                await SelectTypeOfNewLog();
+            });
+        }
+
+        async Task SelectTypeOfNewLog()
+        {
+            string answer = await DisplayActionSheet("What would you like to add?", "Cancel", null, new string[] { "Milk", "Poop", "Exercise", "Sleep" });
+            if (answer != "Cancel")
+            {
+                switch (answer)
+                {
+                    case "Milk":
+                        Navigation.PushAsync(new AddMilkLog());
+                        break;
+                    case "Poo":
+                        //Navigation.PushAsync(new NewPooLog());
+                        break;
+                    case "Exercise":
+                        //Navigation.PushAsync(new NewExerciseLog());
+                        break;
+                    case "Sleep":
+                        //Navigation.PushAsync(new NewSleepLog());
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         protected override void OnAppearing()
@@ -90,6 +119,117 @@ namespace XamarinForms
                     StartTime = x.StartTime,
                     FinishTime = x.FinishTime,
                     SummaryOfEvent = $"Fed {x.Amount}{x.MeasurementType}"
+                }).ToList();
+
+            var tempObservableCollection = new ObservableCollection<GenericLog>();
+            foreach (var log in genericLogs)
+            {
+                tempObservableCollection.Add(log);
+            }
+            GenericLogsView.ItemsSource = tempObservableCollection;
+
+            if (tempObservableCollection.Count == 0)
+            {
+                GenericLogsView.IsVisible = false;
+                NoItemsLabel.IsVisible = true;
+            }
+            else
+            {
+                GenericLogsView.IsVisible = true;
+                NoItemsLabel.IsVisible = false;
+            }
+        }
+
+        private async Task UpdateExerciseLogs()
+        {
+            GenericLogs.Clear();
+            var client = new WebClient();
+            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetExercise");
+            var exerciseLogs = JsonConvert.DeserializeObject<List<ExerciseLog>>(response);
+            var genericLogs = exerciseLogs
+                .Where(x => x.StartTime > CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Select(x => new GenericLog()
+                {
+                    ID = x.ID,
+                    Type = "Exercise",
+                    Icon = "💪",
+                    StartTime = x.StartTime,
+                    FinishTime = x.FinishTime,
+                    SummaryOfEvent = ""
+                }).ToList();
+
+            var tempObservableCollection = new ObservableCollection<GenericLog>();
+            foreach (var log in genericLogs)
+            {
+                tempObservableCollection.Add(log);
+            }
+            GenericLogsView.ItemsSource = tempObservableCollection;
+
+            if (tempObservableCollection.Count == 0)
+            {
+                GenericLogsView.IsVisible = false;
+                NoItemsLabel.IsVisible = true;
+            }
+            else
+            {
+                GenericLogsView.IsVisible = true;
+                NoItemsLabel.IsVisible = false;
+            }
+        }
+
+        private async Task UpdatePooLogs()
+        {
+            GenericLogs.Clear();
+            var client = new WebClient();
+            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetPoo");
+            var pooLogs = JsonConvert.DeserializeObject<List<PooLog>>(response);
+            var genericLogs = pooLogs
+                .Where(x => x.OccurrenceTime > CurrentlySelectedDate && x.OccurrenceTime < CurrentlySelectedDate.AddDays(1))
+                .Select(x => new GenericLog()
+                {
+                    ID = x.ID,
+                    Type = "Poo",
+                    Icon = "💩",
+                    StartTime = x.OccurrenceTime,
+                    FinishTime = x.OccurrenceTime,
+                    SummaryOfEvent = ""
+                }).ToList();
+
+            var tempObservableCollection = new ObservableCollection<GenericLog>();
+            foreach (var log in genericLogs)
+            {
+                tempObservableCollection.Add(log);
+            }
+            GenericLogsView.ItemsSource = tempObservableCollection;
+
+            if (tempObservableCollection.Count == 0)
+            {
+                GenericLogsView.IsVisible = false;
+                NoItemsLabel.IsVisible = true;
+            }
+            else
+            {
+                GenericLogsView.IsVisible = true;
+                NoItemsLabel.IsVisible = false;
+            }
+        }
+
+        private async Task UpdateSleepLogs()
+        {
+            GenericLogs.Clear();
+            var client = new WebClient();
+            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetSleep");
+            var sleepLogs = JsonConvert.DeserializeObject<List<SleepLog>>(response);
+            var genericLogs = sleepLogs
+                .Where(x => x.StartTime > CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Select(x => new GenericLog()
+                {
+                    ID = x.ID,
+                    Type = "Sleep",
+                    Icon = "🛏",
+                    StartTime = x.StartTime,
+                    FinishTime = x.FinishTime,
+                    SummaryOfEvent = ""
                 }).ToList();
 
             var tempObservableCollection = new ObservableCollection<GenericLog>();

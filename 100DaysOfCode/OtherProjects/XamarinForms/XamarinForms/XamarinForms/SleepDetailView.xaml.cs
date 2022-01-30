@@ -10,22 +10,22 @@ using System.Runtime.CompilerServices;
 
 namespace XamarinForms
 {
-    public partial class PooDetailView : ContentPage
+    public partial class SleepDetailView : ContentPage
     {
-        private PooLog originalPooLog;
-        private PooLog _newPooLog = new PooLog();
+        private SleepLog originalSleepLog;
+        private SleepLog _newSleepLog = new SleepLog();
         public bool SaveChangesButtonIsEnabled { get; set; }
-        public PooLog NewPooLog
+        public SleepLog NewSleepLog
         {
             get
             {
-                return _newPooLog;
+                return _newSleepLog;
             }
             set
             {
-                if (_newPooLog != originalPooLog)
+                if (_newSleepLog != originalSleepLog)
                 {
-                    _newPooLog = value;
+                    _newSleepLog = value;
                 }
             }
         }
@@ -35,22 +35,22 @@ namespace XamarinForms
         //protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         //{
         //    base.OnPropertyChanged(propertyName);
-        //    if(originalPooLog != null && _newPooLog != null) UpdateStatusOfSaveButton();
+        //    if(originalSleepLog != null && _newSleepLog != null) UpdateStatusOfSaveButton();
         //}
 
         //private void UpdateStatusOfSaveButton()
         //{
-        //    if (originalPooLog == null) SaveChangesButton.IsEnabled = false;
+        //    if (originalSleepLog == null) SaveChangesButton.IsEnabled = false;
         //    else
         //    {
-        //        if (originalPooLog.ID == _newPooLog.ID &&
-        //            originalPooLog.Type == _newPooLog.Type &&
-        //            originalPooLog.Amount == _newPooLog.Amount &&
-        //            originalPooLog.EstimatedAmount == _newPooLog.EstimatedAmount &&
-        //            originalPooLog.MeasurementType == _newPooLog.MeasurementType &&
-        //            originalPooLog.Comment == _newPooLog.Comment &&
-        //            originalPooLog.StartTime == _newPooLog.StartTime &&
-        //            originalPooLog.FinishTime == _newPooLog.FinishTime)
+        //        if (originalSleepLog.ID == _newSleepLog.ID &&
+        //            originalSleepLog.Type == _newSleepLog.Type &&
+        //            originalSleepLog.Amount == _newSleepLog.Amount &&
+        //            originalSleepLog.EstimatedAmount == _newSleepLog.EstimatedAmount &&
+        //            originalSleepLog.MeasurementType == _newSleepLog.MeasurementType &&
+        //            originalSleepLog.Comment == _newSleepLog.Comment &&
+        //            originalSleepLog.StartTime == _newSleepLog.StartTime &&
+        //            originalSleepLog.FinishTime == _newSleepLog.FinishTime)
         //        {
         //            SaveChangesButton.IsEnabled = false;
         //        }
@@ -59,25 +59,25 @@ namespace XamarinForms
         //}
 
 
-        public PooDetailView(int id)
+        public SleepDetailView(int id)
         {
             InitializeComponent();
             BindingContext = this;
-            Task.Run(async () => { await UpdatePooLog(id); });
-            SaveChangesButton.Command = new Command(async () => { await SavePooLog(); });
+            Task.Run(async () => { await UpdateSleepLog(id); });
+            SaveChangesButton.Command = new Command(async () => { await SaveSleepLog(); });
         }
 
-        private async Task UpdatePooLog(int id)
+        private async Task UpdateSleepLog(int id)
         {
             DataLayout.IsVisible = false;
             LoadingLayout.IsVisible = true;
             try
             {
                 var client = new WebClient();
-                var url = new Uri(string.Concat("http://ubuntu:5000/BabyMonitor/GetPoo/", id));
+                var url = new Uri(string.Concat("http://ubuntu:5000/BabyMonitor/GetSleep/", id));
                 var response = await client.DownloadStringTaskAsync(url);
-                originalPooLog = JsonConvert.DeserializeObject<PooLog>(response);
-                NewPooLog = originalPooLog;
+                originalSleepLog = JsonConvert.DeserializeObject<SleepLog>(response);
+                NewSleepLog = originalSleepLog;
             }
             catch (Exception ex) {
                 var x = ex;
@@ -86,12 +86,12 @@ namespace XamarinForms
             LoadingLayout.IsVisible = false;
         }
 
-        private async Task SavePooLog()
+        private async Task SaveSleepLog()
         {
-            var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdatePoo/{_newPooLog.ID}");
+            var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateSleep/{_newSleepLog.ID}");
             var request = new RestRequest();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            request.AddJsonBody(_newPooLog);
+            request.AddJsonBody(_newSleepLog);
             var response = await client.PutAsync(request);
             await Navigation.PopAsync();
         }

@@ -66,6 +66,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Text="🆕" FontSize="100" BackgroundColor="Transparent"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            x:Name="NewLogButton"/>
     </StackLayout>
 
 </ContentPage>
