@@ -93,6 +93,7 @@ namespace _100DaysAPI.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(ex);
             }
         }

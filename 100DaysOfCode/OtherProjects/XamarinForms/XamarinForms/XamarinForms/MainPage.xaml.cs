@@ -12,6 +12,9 @@ using Xamarin.Forms;
 
 namespace XamarinForms
 {
+
+    // todo: Add Weight to the app
+
     public partial class MainPage : ContentPage
     {
         private DateTime currentlySelectedDate = DateTime.Today;
@@ -319,6 +322,8 @@ namespace XamarinForms
             public string Comment { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime FinishTime { get; set; }
+
+            public List<string> Types { get; set; } = new List<string> { "Breast Milk", "Formula" };
 
             public string HumanReadableAmount
             {
