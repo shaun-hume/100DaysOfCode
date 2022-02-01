@@ -46,16 +46,17 @@ namespace XamarinForms
         {
             InitializeComponent();
             BindingContext = this;
-            GenericLogsView.IsRefreshing = true;
             SelectedDate.Text = CurrentlySelectedDate.ToString("ddd MMM dd, yy");
             GenericLogs = new ObservableCollection<GenericLog>();
             GenericLogsView.ItemsSource = genericLogs;
+            GenericLogsView.IsRefreshing = true;
             UpdateMilkLogs();
+            GenericLogsView.IsRefreshing = false;
 
             GenericLogsView.RefreshCommand = new Command(() =>
             {
+                GenericLogsView.IsRefreshing = true;
                 UpdateMilkLogs();
-
                 GenericLogsView.IsRefreshing = false;
             });
 
@@ -106,11 +107,11 @@ namespace XamarinForms
             UpdateMilkLogs();
         }
 
-        private async Task UpdateMilkLogs()
+        private void UpdateMilkLogs()
         {
             GenericLogs.Clear();
             var client = new WebClient();
-            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetMilk");
+            var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetMilk");
             var milkLogs = JsonConvert.DeserializeObject<List<MilkLog>>(response);
             var genericLogs = milkLogs
                 .Where(x => x.StartTime.ToLocalTime() >= CurrentlySelectedDate && x.StartTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
@@ -282,6 +283,9 @@ namespace XamarinForms
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteMilk/{genericLog.ID}");
             var request = new RestRequest();
             var response = client.DeleteAsync(request);
+            GenericLogsView.IsRefreshing = true;
+            UpdateMilkLogs();
+            GenericLogsView.IsRefreshing = false;
         }
 
         public async void LogClicked(object sender, EventArgs e)
