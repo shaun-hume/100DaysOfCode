@@ -33,13 +33,12 @@
                   IsPullToRefreshEnabled="True"
                   RefreshCommand="{Binding RefreshGenericLogs}"
                   IsRefreshing="{Binding IsRefreshing}"
-                  ItemTapped="LogClicked"
-                  >
+                  ItemTapped="LogClicked">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Clicked="PressMeButton_Clicked"
+                            <MenuItem Clicked="DeleteLog"
                       CommandParameter="{Binding .}"
                       Text="Delete" IsDestructive="True" />
                         </ViewCell.ContextActions>

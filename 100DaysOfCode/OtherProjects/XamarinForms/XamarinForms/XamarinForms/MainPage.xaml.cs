@@ -45,11 +45,11 @@ namespace XamarinForms
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = this;
             GenericLogsView.IsRefreshing = true;
             SelectedDate.Text = CurrentlySelectedDate.ToString("ddd MMM dd, yy");
             GenericLogs = new ObservableCollection<GenericLog>();
             GenericLogsView.ItemsSource = genericLogs;
-
             UpdateMilkLogs();
 
             GenericLogsView.RefreshCommand = new Command(() =>
@@ -270,22 +270,18 @@ namespace XamarinForms
             GenericLogsView.IsRefreshing = false;
         }
 
-        protected void PressMeButton_Clicked(object sender, EventArgs e)
+        protected void DeleteLog(object sender, EventArgs e)
         {
             MenuItem x = sender as MenuItem;
             GenericLog logToDelete = (GenericLog)x.CommandParameter;
             DeleteItem(logToDelete);
         }
 
-        public void DeleteItem(object genericLog)
+        public void DeleteItem(GenericLog genericLog)
         {
-            var client = new RestClient("http://ubuntu:5000/BabyMonitor/DeleteMilk");
+            var client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteMilk/{genericLog.ID}");
             var request = new RestRequest();
-            request.AddHeader("Content-Type", "application/json");
-            var body = "{'ID':}";
-            request.AddParameter("application/json", body, ParameterType.RequestBody);
             var response = client.DeleteAsync(request);
-            var x = 1;
         }
 
         public async void LogClicked(object sender, EventArgs e)

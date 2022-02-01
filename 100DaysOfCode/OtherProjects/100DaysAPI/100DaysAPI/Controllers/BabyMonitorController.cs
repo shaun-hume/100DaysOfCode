@@ -189,10 +189,10 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteMilk")]
-        public IActionResult DeleteMilk([FromBody] MilkLog milkLog)
+        [Route("DeleteMilk/{id}")]
+        public IActionResult DeleteMilk(int ID)
         {
-            var log = _babyDbContext.MilkLogs.Where(x => x.ID == milkLog.ID).First();
+            var log = _babyDbContext.MilkLogs.Where(x => x.ID == ID).First();
             _babyDbContext.Remove(log);
             _babyDbContext.SaveChanges();
 
@@ -200,10 +200,10 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteExercise")]
-        public IActionResult DeleteExercise([FromBody] ExerciseLog exerciseLog)
+        [Route("DeleteExercise/{id}")]
+        public IActionResult DeleteExercise(int ID)
         {
-            var log = _babyDbContext.ExerciseLogs.Where(x => x.ID == exerciseLog.ID).First();
+            var log = _babyDbContext.ExerciseLogs.Where(x => x.ID == ID).First();
             _babyDbContext.Remove(log);
             _babyDbContext.SaveChanges();
 
@@ -211,10 +211,10 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeletePoo")]
-        public IActionResult DeletePoo([FromBody] PooLog pooLog)
+        [Route("DeletePoo/{id}")]
+        public IActionResult DeletePoo(int ID)
         {
-            var log = _babyDbContext.PooLogs.Where(x => x.ID == pooLog.ID).First();
+            var log = _babyDbContext.PooLogs.Where(x => x.ID == ID).First();
             _babyDbContext.Remove(log);
             _babyDbContext.SaveChanges();
 
@@ -222,10 +222,10 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteSleep")]
-        public IActionResult DeleteSleep([FromBody] SleepLog sleepLog)
+        [Route("DeleteSleep/{id}")]
+        public IActionResult DeleteSleep(int ID)
         {
-            var log = _babyDbContext.SleepLogs.Where(x => x.ID == sleepLog.ID).First();
+            var log = _babyDbContext.SleepLogs.Where(x => x.ID == ID).First();
             _babyDbContext.Remove(log);
             _babyDbContext.SaveChanges();
 
