@@ -45,11 +45,11 @@ namespace XamarinForms
             SelectedDate.Text = CurrentlySelectedDate.ToString("ddd MMM dd, yy");
             GenericLogs = new ObservableCollection<GenericLog>();
             GenericLogsView.ItemsSource = genericLogs;
-            Task.Run(async () => await UpdateAllLogs());
+            UpdateAllLogs();
 
             GenericLogsView.RefreshCommand = new Command(() =>
             {
-                Task.Run(async () => await UpdateAllLogs());
+                UpdateAllLogs();
             });
 
             PreviousDayButton.Command = new Command(() =>
@@ -96,18 +96,18 @@ namespace XamarinForms
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Task.Run(async () => await UpdateAllLogs());
+            UpdateAllLogs();
         }
 
-        private async Task UpdateAllLogs()
+        private void UpdateAllLogs()
         {
             GenericLogsView.IsRefreshing = true;
             if (GenericLogs.Count > 0) GenericLogs.Clear();
 
             var tempObservableList = new ObservableCollection<GenericLog>();
 
-            tempObservableList = await UpdateMilkLogs(tempObservableList);
-            tempObservableList = await UpdatePooLogs(tempObservableList);
+            tempObservableList = UpdateMilkLogs(tempObservableList);
+            tempObservableList = UpdatePooLogs(tempObservableList);
 
             foreach (var genericLog in tempObservableList)
             {
@@ -132,10 +132,10 @@ namespace XamarinForms
             }
         }
 
-        private async Task<ObservableCollection<GenericLog>> UpdateMilkLogs(ObservableCollection<GenericLog> tempObservableList)
+        private ObservableCollection<GenericLog> UpdateMilkLogs(ObservableCollection<GenericLog> tempObservableList)
         {
             var client = new WebClient();
-            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetMilk");
+            var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetMilk");
             var milkLogs = JsonConvert.DeserializeObject<List<MilkLog>>(response);
             var genericLogs = milkLogs
                 .Where(x => x.StartTime.ToLocalTime() >= CurrentlySelectedDate && x.StartTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
@@ -157,10 +157,10 @@ namespace XamarinForms
             return tempObservableList;
         }
 
-        private async Task<ObservableCollection<GenericLog>> UpdateExerciseLogs(ObservableCollection<GenericLog> tempObservableList)
+        private ObservableCollection<GenericLog> UpdateExerciseLogs(ObservableCollection<GenericLog> tempObservableList)
         {
             var client = new WebClient();
-            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetExercise");
+            var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetExercise");
             var exerciseLogs = JsonConvert.DeserializeObject<List<ExerciseLog>>(response);
             var genericLogs = exerciseLogs
                 .Where(x => x.StartTime.ToLocalTime() >= CurrentlySelectedDate && x.StartTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
@@ -183,10 +183,10 @@ namespace XamarinForms
 
         }
 
-        private async Task<ObservableCollection<GenericLog>> UpdatePooLogs(ObservableCollection<GenericLog> tempObservableList)
+        private ObservableCollection<GenericLog> UpdatePooLogs(ObservableCollection<GenericLog> tempObservableList)
         {            
             var client = new WebClient();
-            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetPoo");
+            var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetPoo");
             var pooLogs = JsonConvert.DeserializeObject<List<PooLog>>(response);
             var genericLogs = pooLogs
                 .Where(x => x.OccurrenceTime.ToLocalTime() >= CurrentlySelectedDate && x.OccurrenceTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
@@ -209,10 +209,10 @@ namespace XamarinForms
 
         }
 
-        private async Task<ObservableCollection<GenericLog>> UpdateSleepLogs(ObservableCollection<GenericLog> tempObservableList)
+        private ObservableCollection<GenericLog> UpdateSleepLogs(ObservableCollection<GenericLog> tempObservableList)
         {
             var client = new WebClient();
-            var response = await client.DownloadStringTaskAsync("http://ubuntu:5000/BabyMonitor/GetSleep");
+            var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetSleep");
             var sleepLogs = JsonConvert.DeserializeObject<List<SleepLog>>(response);
             var genericLogs = sleepLogs
                 .Where(x => x.StartTime >= CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
@@ -238,13 +238,13 @@ namespace XamarinForms
         public void GoBackADay()
         {
             CurrentlySelectedDate = CurrentlySelectedDate.AddDays(-1);
-            Task.Run(async () => await UpdateAllLogs());
+            UpdateAllLogs();
         }
 
         public void GoForwardADay()
         {
             CurrentlySelectedDate = CurrentlySelectedDate.AddDays(1);
-            Task.Run(async () => await UpdateAllLogs());
+            UpdateAllLogs();
         }
 
         protected void DeleteLog(object sender, EventArgs e)
@@ -259,7 +259,7 @@ namespace XamarinForms
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteMilk/{genericLog.ID}");
             var request = new RestRequest();
             var response = client.DeleteAsync(request);
-            Task.Run(async () => await UpdateAllLogs());
+            UpdateAllLogs();
         }
 
         public async void LogClicked(object sender, EventArgs e)
