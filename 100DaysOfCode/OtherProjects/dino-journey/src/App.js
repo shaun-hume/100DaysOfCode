@@ -7,8 +7,9 @@ import TaskEntry from './TaskEntry';
 
 function SpringDemo() {
   const [state, toggle] = useState(true)
+  let tasksFromLocalStorage = JSON.parse(localStorage.getItem('tasks'));
+  const [ tasks, setToDoList ] = useState(tasksFromLocalStorage);
   const { x } = useSpring({ from: { x: 0 }, x: state ? 1 : 0, config: { duration: 1000 } })
-  localStorage.setItem('myData', Date.now());
   return (
 
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -17,7 +18,7 @@ function SpringDemo() {
             <TaskEntry></TaskEntry>
           </Col>
           <Col>
-            <List></List>
+            <List tasks={tasks} />
           </Col>
         </Row>
     </div>

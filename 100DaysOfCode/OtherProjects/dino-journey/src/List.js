@@ -1,12 +1,23 @@
 import { Button } from "react-bootstrap";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
-function List() {
-    let [tasks] = useState([]);
-    tasks = ListTasks();
-    return (
-        <>{tasks}</>
-    )
+function List(tasks) {
+    if (tasks != null) {
+        return (
+            <ul>
+                {tasks.tasks.map(task => (
+                    <li>{task}</li>
+                ))}
+            </ul>
+        )
+    }
+    else {
+        return (
+            <ul>
+                <li>No tasks</li>
+            </ul>
+        )
+    }
 }
 
 //get tasks from local storage and display them as a list
