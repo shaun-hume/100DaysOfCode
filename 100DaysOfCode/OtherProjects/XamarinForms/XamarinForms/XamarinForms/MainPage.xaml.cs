@@ -108,13 +108,14 @@ namespace XamarinForms
 
             tempObservableList = UpdateMilkLogs(tempObservableList);
             tempObservableList = UpdatePooLogs(tempObservableList);
+            var orderedList = tempObservableList.OrderBy(x => x.StartTime).ToList();
 
-            foreach (var genericLog in tempObservableList)
+            foreach (var genericLog in orderedList)
             {
                 GenericLogs.Add(genericLog);
             }
 
-            GenericLogsView.ItemsSource = tempObservableList;
+            GenericLogsView.ItemsSource = GenericLogs;
             GenericLogsView.IsRefreshing = false;
 
             GenericLogsView.IsVisible = true;
@@ -169,9 +170,9 @@ namespace XamarinForms
                     ID = x.ID,
                     Type = "Exercise",
                     Icon = "💪",
-                    StartTime = x.StartTime,
-                    FinishTime = x.FinishTime,
-                    SummaryOfEvent = ""
+                    StartTime = x.StartTime.ToLocalTime(),
+                    FinishTime = x.FinishTime.ToLocalTime(),
+                    SummaryOfEvent = $"{x.Type} at {x.StartTime}"
                 }).ToList();
 
             foreach (var log in genericLogs)
@@ -195,9 +196,9 @@ namespace XamarinForms
                     ID = x.ID,
                     Type = "Poo",
                     Icon = "💩",
-                    StartTime = x.OccurrenceTime,
-                    FinishTime = x.OccurrenceTime,
-                    SummaryOfEvent = ""
+                    StartTime = x.OccurrenceTime.ToLocalTime(),
+                    FinishTime = x.OccurrenceTime.ToLocalTime(),
+                    SummaryOfEvent = $"{x.Type}"
                 }).ToList();
 
             foreach (var log in genericLogs)
@@ -215,14 +216,14 @@ namespace XamarinForms
             var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetSleep");
             var sleepLogs = JsonConvert.DeserializeObject<List<SleepLog>>(response);
             var genericLogs = sleepLogs
-                .Where(x => x.StartTime >= CurrentlySelectedDate && x.StartTime < CurrentlySelectedDate.AddDays(1))
+                .Where(x => x.StartTime.ToLocalTime() >= CurrentlySelectedDate && x.StartTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
                 .Select(x => new GenericLog()
                 {
                     ID = x.ID,
                     Type = "Sleep",
                     Icon = "🛏",
-                    StartTime = x.StartTime,
-                    FinishTime = x.FinishTime,
+                    StartTime = x.StartTime.ToLocalTime(),
+                    FinishTime = x.FinishTime.ToLocalTime(),
                     SummaryOfEvent = ""
                 }).ToList();
 
