@@ -118,9 +118,6 @@ namespace XamarinForms
             GenericLogsView.ItemsSource = GenericLogs;
             GenericLogsView.IsRefreshing = false;
 
-            GenericLogsView.IsVisible = true;
-            NoItemsLabel.IsVisible = false;
-
             if (GenericLogs.Count == 0)
             {
                 GenericLogsView.IsVisible = false;
@@ -325,9 +322,17 @@ namespace XamarinForms
             public List<string> Colours { get; set; } = new List<string> { "Brown", "Yellow", "Green", "Black", "Other" };
             public DateTime OccurrenceDate { get; set; }
             public TimeSpan OccurrenceTimeSpan { get; set; }
-            public DateTime OccurrenceTime { get; set; }
-
-
+            private DateTime _occurrenceTime;
+            public DateTime OccurrenceTime
+            {
+                get => _occurrenceTime;
+                set
+                {
+                    _occurrenceTime = value;
+                    OccurrenceTimeSpan = value.TimeOfDay;
+                    OccurrenceDate = value;
+                }
+            }
             public event PropertyChangedEventHandler PropertyChanged;
         }
 

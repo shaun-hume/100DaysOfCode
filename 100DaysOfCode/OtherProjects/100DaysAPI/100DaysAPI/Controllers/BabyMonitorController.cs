@@ -144,10 +144,10 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateExercise")]
-        public IActionResult UpdateExercise([FromBody] ExerciseLog exerciseLog)
+        [Route("UpdateExercise/{id}")]
+        public IActionResult UpdateExercise(int Id, [FromBody] ExerciseLog exerciseLog)
         {
-            var log = _babyDbContext.ExerciseLogs.Where(x => x.ID == exerciseLog.ID).First();
+            var log = _babyDbContext.ExerciseLogs.Where(x => x.ID == Id).First();
             log.ID = exerciseLog.ID;
             log.Type = exerciseLog.Type;
             log.Comment = exerciseLog.Comment;
@@ -159,8 +159,8 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdatePoo")]
-        public IActionResult UpdatePoo([FromBody] PooLog pooLog)
+        [Route("UpdatePoo/{id}")]
+        public IActionResult UpdatePoo(int Id, [FromBody] PooLog pooLog)
         {
             var log = _babyDbContext.PooLogs.Where(x => x.ID == pooLog.ID).First();
             log.ID = pooLog.ID;
@@ -174,10 +174,10 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateSleep")]
-        public IActionResult UpdateSleep([FromBody] SleepLog sleepLog)
+        [Route("UpdateSleep/{id}")]
+        public IActionResult UpdateSleep(int Id, [FromBody] SleepLog sleepLog)
         {
-            var log = _babyDbContext.SleepLogs.Where(x => x.ID == sleepLog.ID).First();
+            var log = _babyDbContext.SleepLogs.Where(x => x.ID == Id).First();
 
             log.ID = sleepLog.ID;
             log.Comment = sleepLog.Comment;

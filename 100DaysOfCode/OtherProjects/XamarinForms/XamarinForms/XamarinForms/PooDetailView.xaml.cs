@@ -78,6 +78,8 @@ namespace XamarinForms
                 var response = await client.DownloadStringTaskAsync(url);
                 originalPooLog = JsonConvert.DeserializeObject<PooLog>(response);
                 NewPooLog = originalPooLog;
+                NewPooLog.OccurrenceTime = NewPooLog.OccurrenceTime.ToLocalTime();
+
             }
             catch (Exception ex) {
                 var x = ex;
@@ -91,8 +93,11 @@ namespace XamarinForms
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdatePoo/{_newPooLog.ID}");
             var request = new RestRequest();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            request.AddJsonBody(_newPooLog);
-            var response = await client.PutAsync(request);
+            var pooLogToSend = _newPooLog;
+            pooLogToSend.OccurrenceTime = new DateTime(pooLogToSend.OccurrenceDate.Year, pooLogToSend.OccurrenceDate.Month, pooLogToSend.OccurrenceDate.Day, pooLogToSend.OccurrenceTimeSpan.Hours, pooLogToSend.OccurrenceTimeSpan.Minutes, pooLogToSend.OccurrenceTimeSpan.Seconds).ToUniversalTime();
+
+            request.AddJsonBody(pooLogToSend);
+                var response = await client.PutAsync(request);
             await Navigation.PopAsync();
         }
     }
