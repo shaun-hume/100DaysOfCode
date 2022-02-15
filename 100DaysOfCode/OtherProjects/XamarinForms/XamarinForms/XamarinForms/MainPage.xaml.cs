@@ -350,10 +350,34 @@ namespace XamarinForms
         {
             public int ID { get; set; }
             public string Type { get; set; }
+            public List<string> Types { get; set; } = new List<string> { "Tummy Time", "Playing on back", "Other" };
             public string Comment { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime FinishTime { get; set; }
-
+            public DateTime _startTime { get; set; }
+            public DateTime StartTimeDate { get; set; }
+            public TimeSpan StartTimeSpan { get; set; }
+            public DateTime _finishTime { get; set; }
+            public DateTime FinishTimeDate { get; set; }
+            public TimeSpan FinishTimeSpan { get; set; }
+            public DateTime StartTime
+            {
+                get => _startTime;
+                set
+                {
+                    _startTime = value;
+                    StartTimeSpan = value.TimeOfDay;
+                    StartTimeDate = value;
+                }
+            }
+            public DateTime FinishTime
+            {
+                get => _finishTime;
+                set
+                {
+                    _finishTime = value;
+                    FinishTimeSpan = value.TimeOfDay;
+                    FinishTimeDate = value;
+                }
+            }
             public event PropertyChangedEventHandler PropertyChanged;
         }
     }
