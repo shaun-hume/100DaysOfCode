@@ -78,6 +78,10 @@ namespace XamarinForms
                 var response = await client.DownloadStringTaskAsync(url);
                 originalExerciseLog = JsonConvert.DeserializeObject<ExerciseLog>(response);
                 NewExerciseLog = originalExerciseLog;
+                NewExerciseLog.StartTimeDate = NewExerciseLog.StartTimeDate.ToLocalTime();
+                NewExerciseLog.FinishTimeDate = NewExerciseLog.FinishTimeDate.ToLocalTime();
+                NewExerciseLog.StartTimeSpan = NewExerciseLog.StartTime.ToLocalTime().TimeOfDay;
+                NewExerciseLog.FinishTimeSpan = NewExerciseLog.FinishTime.ToLocalTime().TimeOfDay;
             }
             catch (Exception ex) {
                 var x = ex;
@@ -90,6 +94,8 @@ namespace XamarinForms
         {
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateExercise/{_newExerciseLog.ID}");
             var request = new RestRequest();
+            _newExerciseLog.StartTime = new DateTime(_newExerciseLog.StartTimeDate.Year, _newExerciseLog.StartTimeDate.Month, _newExerciseLog.StartTimeDate.Day, _newExerciseLog.StartTimeSpan.Hours, _newExerciseLog.StartTimeSpan.Minutes, _newExerciseLog.StartTimeSpan.Seconds).ToUniversalTime();
+            _newExerciseLog.FinishTime = new DateTime(_newExerciseLog.FinishTimeDate.Year, _newExerciseLog.FinishTimeDate.Month, _newExerciseLog.FinishTimeDate.Day, _newExerciseLog.FinishTimeSpan.Hours, _newExerciseLog.FinishTimeSpan.Minutes, _newExerciseLog.FinishTimeSpan.Seconds).ToUniversalTime();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
             request.AddJsonBody(_newExerciseLog);
             var response = await client.PutAsync(request);

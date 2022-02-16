@@ -78,6 +78,10 @@ namespace XamarinForms
                 var response = await client.DownloadStringTaskAsync(url);
                 originalSleepLog = JsonConvert.DeserializeObject<SleepLog>(response);
                 NewSleepLog = originalSleepLog;
+                NewSleepLog.StartTimeDate = NewSleepLog.StartTimeDate.ToLocalTime();
+                NewSleepLog.FinishTimeDate = NewSleepLog.FinishTimeDate.ToLocalTime();
+                NewSleepLog.StartTimeSpan = NewSleepLog.StartTime.ToLocalTime().TimeOfDay;
+                NewSleepLog.FinishTimeSpan = NewSleepLog.FinishTime.ToLocalTime().TimeOfDay;
             }
             catch (Exception ex) {
                 var x = ex;
@@ -90,6 +94,8 @@ namespace XamarinForms
         {
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateSleep/{_newSleepLog.ID}");
             var request = new RestRequest();
+            _newSleepLog.StartTime = new DateTime(_newSleepLog.StartTimeDate.Year, _newSleepLog.StartTimeDate.Month, _newSleepLog.StartTimeDate.Day, _newSleepLog.StartTimeSpan.Hours, _newSleepLog.StartTimeSpan.Minutes, _newSleepLog.StartTimeSpan.Seconds).ToUniversalTime();
+            _newSleepLog.FinishTime = new DateTime(_newSleepLog.FinishTimeDate.Year, _newSleepLog.FinishTimeDate.Month, _newSleepLog.FinishTimeDate.Day, _newSleepLog.FinishTimeSpan.Hours, _newSleepLog.FinishTimeSpan.Minutes, _newSleepLog.FinishTimeSpan.Seconds).ToUniversalTime();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
             request.AddJsonBody(_newSleepLog);
             var response = await client.PutAsync(request);

@@ -39,10 +39,10 @@
 
 
                 <Editor Grid.Row="2" Grid.Column="1" Text="{Binding NewExerciseLog.Comment}"></Editor>
-                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding NewExerciseLog.StartTime.Date, Mode=TwoWay}"></DatePicker>
-                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding NewExerciseLog.StartTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
-                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewExerciseLog.FinishTime.Date, Mode=TwoWay}"></DatePicker>
-                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewExerciseLog.FinishTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding NewExerciseLog.StartTimeDate, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding NewExerciseLog.StartTimeSpan, Mode=TwoWay}"></TimePicker>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewExerciseLog.FinishTimeDate, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewExerciseLog.FinishTimeSpan, Mode=TwoWay}"></TimePicker>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

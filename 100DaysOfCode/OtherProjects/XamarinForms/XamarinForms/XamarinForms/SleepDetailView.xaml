@@ -39,10 +39,10 @@
 
 
                 <Editor Grid.Row="2" Grid.Column="1" Text="{Binding NewSleepLog.Comment}"></Editor>
-                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding NewSleepLog.StartTime.Date, Mode=TwoWay}"></DatePicker>
-                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding NewSleepLog.StartTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
-                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewSleepLog.FinishTime.Date, Mode=TwoWay}"></DatePicker>
-                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewSleepLog.FinishTime.TimeOfDay, Mode=TwoWay}"></TimePicker>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="3" Grid.Column="1" Date="{Binding NewSleepLog.StartTimeDate, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="3" Grid.Column="2" Time="{Binding NewSleepLog.StartTimeSpan, Mode=TwoWay}"></TimePicker>
+                <DatePicker Format="dd/MM/yy"  Grid.Row="4" Grid.Column="1" Date="{Binding NewSleepLog.FinishTimeDate, Mode=TwoWay}"></DatePicker>
+                <TimePicker Format="hh:mmtt" Grid.Row="4" Grid.Column="2" Time="{Binding NewSleepLog.FinishTimeSpan, Mode=TwoWay}"></TimePicker>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

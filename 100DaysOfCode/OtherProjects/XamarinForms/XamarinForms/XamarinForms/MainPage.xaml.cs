@@ -82,10 +82,10 @@ namespace XamarinForms
                         await Navigation.PushAsync(new AddPooLog());
                         break;
                     case "Exercise":
-                        //Navigation.PushAsync(new AddExerciseLog());
+                        await Navigation.PushAsync(new AddExerciseLog());
                         break;
                     case "Sleep":
-                        //Navigation.PushAsync(new AddSleepLog());
+                        await Navigation.PushAsync(new AddSleepLog());
                         break;
                     default:
                         break;
@@ -108,6 +108,8 @@ namespace XamarinForms
 
             tempObservableList = UpdateMilkLogs(tempObservableList);
             tempObservableList = UpdatePooLogs(tempObservableList);
+            tempObservableList = UpdateExerciseLogs(tempObservableList);
+            tempObservableList = UpdateSleepLogs(tempObservableList);
             var orderedList = tempObservableList.OrderBy(x => x.StartTime).ToList();
 
             foreach (var genericLog in orderedList)
@@ -169,7 +171,7 @@ namespace XamarinForms
                     Icon = "💪",
                     StartTime = x.StartTime.ToLocalTime(),
                     FinishTime = x.FinishTime.ToLocalTime(),
-                    SummaryOfEvent = $"{x.Type} at {x.StartTime}"
+                    SummaryOfEvent = $"{x.Type} for {new TimeSpan(x.FinishTime.Ticks- x.StartTime.Ticks).TotalMinutes} minutes"
                 }).ToList();
 
             foreach (var log in genericLogs)
@@ -221,7 +223,7 @@ namespace XamarinForms
                     Icon = "🛏",
                     StartTime = x.StartTime.ToLocalTime(),
                     FinishTime = x.FinishTime.ToLocalTime(),
-                    SummaryOfEvent = ""
+                    SummaryOfEvent = $"Sleep for {(int)(new TimeSpan(x.FinishTime.Ticks - x.StartTime.Ticks).TotalHours)}hrs and {new TimeSpan(x.FinishTime.Ticks - x.StartTime.Ticks).TotalMinutes} minutes"
                 }).ToList();
 
             foreach (var log in genericLogs)
@@ -254,9 +256,26 @@ namespace XamarinForms
 
         public void DeleteItem(GenericLog genericLog)
         {
-            var client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteMilk/{genericLog.ID}");
+            RestClient client = null;
+            switch (genericLog.Type)
+            {
+                case "Milk":
+                    client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteMilk/{genericLog.ID}");
+                    break;
+                case "Poo":
+                    client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeletePoo/{genericLog.ID}");
+                    break;
+                case "Exercise":
+                    client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteExercise/{genericLog.ID}");
+                    break;
+                case "Sleep":
+                    client = new RestClient($"http://ubuntu:5000/BabyMonitor/DeleteSleep/{genericLog.ID}");
+                    break;
+                default:
+                    break;
+            }
             var request = new RestRequest();
-            var response = client.DeleteAsync(request);
+            client.DeleteAsync(request);
             UpdateAllLogs();
         }
 
@@ -272,6 +291,14 @@ namespace XamarinForms
             if (selectedLog.Type == "Poo")
             {
                 await Navigation.PushAsync(new PooDetailView(selectedLog.ID));
+            }
+            if (selectedLog.Type == "Exercise")
+            {
+                await Navigation.PushAsync(new ExerciseDetailView(selectedLog.ID));
+            }
+            if (selectedLog.Type == "Sleep")
+            {
+                await Navigation.PushAsync(new SleepDetailView(selectedLog.ID));
             }
         }
 
@@ -340,9 +367,32 @@ namespace XamarinForms
         {
             public int ID { get; set; }
             public string Comment { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime FinishTime { get; set; }
-
+            public DateTime _startTime { get; set; }
+            public DateTime _finishTime { get; set; }
+            public DateTime StartTimeDate { get; set; }
+            public TimeSpan StartTimeSpan { get; set; }
+            public DateTime FinishTimeDate { get; set; }
+            public TimeSpan FinishTimeSpan { get; set; }
+            public DateTime StartTime
+            {
+                get => _startTime;
+                set
+                {
+                    _startTime = value;
+                    StartTimeSpan = value.TimeOfDay;
+                    StartTimeDate = value;
+                }
+            }
+            public DateTime FinishTime
+            {
+                get => _finishTime;
+                set
+                {
+                    _finishTime = value;
+                    FinishTimeSpan = value.TimeOfDay;
+                    FinishTimeDate = value;
+                }
+            }
             public event PropertyChangedEventHandler PropertyChanged;
         }
 

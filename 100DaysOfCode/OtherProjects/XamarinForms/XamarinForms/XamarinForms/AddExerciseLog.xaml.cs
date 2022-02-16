@@ -37,7 +37,7 @@ namespace XamarinForms
                 var ExerciseLogToSend = _newExerciseLog;
 
                 ExerciseLogToSend.StartTime = new DateTime(ExerciseLogToSend.StartTimeDate.Year, ExerciseLogToSend.StartTimeDate.Month, ExerciseLogToSend.StartTimeDate.Day, ExerciseLogToSend.StartTimeSpan.Hours, ExerciseLogToSend.StartTimeSpan.Minutes, ExerciseLogToSend.StartTimeSpan.Seconds).ToUniversalTime();
-                ExerciseLogToSend.FinishTime = new DateTime(ExerciseLogToSend.StartTimeDate.Year, ExerciseLogToSend.StartTimeDate.Month, ExerciseLogToSend.StartTimeDate.Day, ExerciseLogToSend.StartTimeSpan.Hours, ExerciseLogToSend.StartTimeSpan.Minutes, ExerciseLogToSend.StartTimeSpan.Seconds).ToUniversalTime();
+                ExerciseLogToSend.FinishTime = new DateTime(ExerciseLogToSend.FinishTimeDate.Year, ExerciseLogToSend.FinishTimeDate.Month, ExerciseLogToSend.FinishTimeDate.Day, ExerciseLogToSend.FinishTimeSpan.Hours, ExerciseLogToSend.FinishTimeSpan.Minutes, ExerciseLogToSend.FinishTimeSpan.Seconds).ToUniversalTime();
                 var client = new RestClient($"http://ubuntu:5000/BabyMonitor/AddExercise");
 
                 var test = JsonConvert.SerializeObject(ExerciseLogToSend);
