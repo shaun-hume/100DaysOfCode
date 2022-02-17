@@ -40,9 +40,13 @@ namespace XamarinForms
         {
             try
             {
-                var pooLogToSend = _newPooLog;
-
-                pooLogToSend.OccurrenceTime = new DateTime(pooLogToSend.OccurrenceDate.Year, pooLogToSend.OccurrenceDate.Month, pooLogToSend.OccurrenceDate.Day, pooLogToSend.OccurrenceTimeSpan.Hours, pooLogToSend.OccurrenceTimeSpan.Minutes, pooLogToSend.OccurrenceTimeSpan.Seconds).ToUniversalTime();
+                var pooLogToSend = new PooLog
+                {
+                    Type = _newPooLog.Type,
+                    Comment = _newPooLog.Comment,
+                    Colour = _newPooLog.Colour,
+                    OccurrenceTime = new DateTime(NewPooLog.OccurrenceDate.Year, NewPooLog.OccurrenceDate.Month, NewPooLog.OccurrenceDate.Day, NewPooLog.OccurrenceTimeSpan.Hours, NewPooLog.OccurrenceTimeSpan.Minutes, NewPooLog.OccurrenceTimeSpan.Seconds).ToUniversalTime()
+            };
                 var client = new RestClient($"http://ubuntu:5000/BabyMonitor/AddPoo");
 
                 var test = JsonConvert.SerializeObject(pooLogToSend);

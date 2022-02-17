@@ -38,12 +38,12 @@
                 <Editor Grid.Row="3" Grid.Column="1" Text="{Binding NewMilkLog.Comment}"></Editor>
 
                 <Label Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="End"  Text="Start Time"></Label>
-                <DatePicker Grid.Row="4" Grid.Column="1" Format="dd/MM/yy"   Date="{Binding StartTime, Mode=TwoWay}"></DatePicker>
-                <TimePicker Grid.Row="4" Grid.Column="2" Format="hh:mmtt"  Time="{Binding StartTime, Mode=TwoWay}"></TimePicker>
+                <DatePicker Grid.Row="4" Grid.Column="1" Format="dd/MM/yy"   Date="{Binding NewMilkLog.StartTimeDate, Mode=TwoWay}"></DatePicker>
+                <TimePicker Grid.Row="4" Grid.Column="2" Format="hh:mmtt"  Time="{Binding NewMilkLog.StartTimeSpan, Mode=TwoWay}"></TimePicker>
 
                 <Label Grid.Row="5" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="End"  Text="Finish Time"></Label>
-                <DatePicker Grid.Row="5" Grid.Column="1" Format="dd/MM/yy"   Date="{Binding FinishTime, Mode=TwoWay}"></DatePicker>
-                <TimePicker Grid.Row="5" Grid.Column="2" Format="hh:mmtt"  Time="{Binding FinishTime, Mode=TwoWay}"></TimePicker>
+                <DatePicker Grid.Row="5" Grid.Column="1" Format="dd/MM/yy"   Date="{Binding NewMilkLog.FinishTimeDate, Mode=TwoWay}"></DatePicker>
+                <TimePicker Grid.Row="5" Grid.Column="2" Format="hh:mmtt"  Time="{Binding NewMilkLog.FinishTimeSpan, Mode=TwoWay}"></TimePicker>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

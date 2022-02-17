@@ -90,12 +90,18 @@ namespace XamarinForms
 
         private async Task SavePooLog()
         {
+            var pooLogToSend = new PooLog
+            {
+                ID = NewPooLog.ID,
+                Type = NewPooLog.Type,
+                Comment = NewPooLog.Comment,
+                Colour = NewPooLog.Colour,
+                OccurrenceTime = new DateTime(NewPooLog.OccurrenceDate.Year, NewPooLog.OccurrenceDate.Month, NewPooLog.OccurrenceDate.Day, NewPooLog.OccurrenceTimeSpan.Hours, NewPooLog.OccurrenceTimeSpan.Minutes, NewPooLog.OccurrenceTimeSpan.Seconds).ToUniversalTime()
+            };
+
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdatePoo/{_newPooLog.ID}");
             var request = new RestRequest();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            var pooLogToSend = _newPooLog;
-            pooLogToSend.OccurrenceTime = new DateTime(pooLogToSend.OccurrenceDate.Year, pooLogToSend.OccurrenceDate.Month, pooLogToSend.OccurrenceDate.Day, pooLogToSend.OccurrenceTimeSpan.Hours, pooLogToSend.OccurrenceTimeSpan.Minutes, pooLogToSend.OccurrenceTimeSpan.Seconds).ToUniversalTime();
-
             request.AddJsonBody(pooLogToSend);
                 var response = await client.PutAsync(request);
             await Navigation.PopAsync();

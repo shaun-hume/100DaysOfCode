@@ -76,13 +76,10 @@ namespace XamarinForms
                 var response = await client.DownloadStringTaskAsync(url);
                 originalMilkLog = JsonConvert.DeserializeObject<MilkLog>(response);
                 NewMilkLog = originalMilkLog;
-                var StartTime = originalMilkLog.StartTime.ToLocalTime();
-                var FinishTime = originalMilkLog.FinishTime.ToLocalTime();
-
-                StartDatePicker.Date = StartTime;
-                StartTimePicker.Time = StartTime.TimeOfDay;
-                FinishDatePicker.Date = FinishTime;
-                FinishTimePicker.Time = FinishTime.TimeOfDay;
+                NewMilkLog.StartTimeDate = NewMilkLog.StartTimeDate.ToLocalTime();
+                NewMilkLog.FinishTimeDate = NewMilkLog.FinishTimeDate.ToLocalTime();
+                NewMilkLog.StartTimeSpan = NewMilkLog.StartTime.ToLocalTime().TimeOfDay;
+                NewMilkLog.FinishTimeSpan = NewMilkLog.FinishTime.ToLocalTime().TimeOfDay;
             }
             catch (Exception ex) {
                 var x = ex;
@@ -96,8 +93,8 @@ namespace XamarinForms
             var client = new RestClient($"http://ubuntu:5000/BabyMonitor/UpdateMilk/{_newMilkLog.ID}");
             var request = new RestRequest();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            _newMilkLog.StartTime = new DateTime(StartDatePicker.Date.Ticks + StartTimePicker.Time.Ticks).ToUniversalTime();
-            _newMilkLog.FinishTime = new DateTime(FinishDatePicker.Date.Ticks + FinishTimePicker.Time.Ticks).ToUniversalTime();
+            _newMilkLog.StartTime = new DateTime(_newMilkLog.StartTimeDate.Year, _newMilkLog.StartTimeDate.Month, _newMilkLog.StartTimeDate.Day, _newMilkLog.StartTimeSpan.Hours, _newMilkLog.StartTimeSpan.Minutes, _newMilkLog.StartTimeSpan.Seconds).ToUniversalTime();
+            _newMilkLog.FinishTime = new DateTime(_newMilkLog.FinishTimeDate.Year, _newMilkLog.FinishTimeDate.Month, _newMilkLog.FinishTimeDate.Day, _newMilkLog.FinishTimeSpan.Hours, _newMilkLog.FinishTimeSpan.Minutes, _newMilkLog.FinishTimeSpan.Seconds).ToUniversalTime();
             request.AddJsonBody(_newMilkLog);
             var response = await client.PutAsync(request);
             await Navigation.PopAsync();
