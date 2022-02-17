@@ -89,7 +89,8 @@ namespace _100DaysAPI.Controllers
             {
                 _babyDbContext.MilkLogs.Add(milkLog);
                 _babyDbContext.SaveChanges();
-                return Ok();
+
+                return Ok(milkLog);
             }
             catch(Exception ex)
             {
@@ -104,7 +105,7 @@ namespace _100DaysAPI.Controllers
         {
             _babyDbContext.ExerciseLogs.Add(exerciseLog);
             _babyDbContext.SaveChanges();
-            return Ok();
+            return Ok(exerciseLog);
         }
 
         [HttpPost]
@@ -113,7 +114,7 @@ namespace _100DaysAPI.Controllers
         {
             _babyDbContext.PooLogs.Add(pooLog);
             _babyDbContext.SaveChanges();
-            return Ok();
+            return Ok(pooLog);
         }
 
         [HttpPost]
@@ -122,7 +123,7 @@ namespace _100DaysAPI.Controllers
         {
             _babyDbContext.SleepLogs.Add(sleepLog);
             _babyDbContext.SaveChanges();
-            return Ok();
+            return Ok(sleepLog);
         }
 
         [HttpPut]
