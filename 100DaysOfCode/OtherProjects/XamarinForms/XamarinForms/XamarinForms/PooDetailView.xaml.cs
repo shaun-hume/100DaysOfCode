@@ -103,7 +103,7 @@ namespace XamarinForms
             var request = new RestRequest();
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
             request.AddJsonBody(pooLogToSend);
-                var response = await client.PutAsync(request);
+            var response = await client.PutAsync(request);
             await Navigation.PopAsync();
         }
     }

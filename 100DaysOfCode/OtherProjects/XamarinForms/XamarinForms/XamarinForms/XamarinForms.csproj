@@ -11,15 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RestSharp" Version="107.1.1" />
+    <PackageReference Include="RestSharp" Version="107.3.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Fody" Version="6.6.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="RestClient" />
@@ -31,6 +32,9 @@
     <None Remove="Microsoft.AppCenter" />
     <None Remove="Microsoft.AppCenter.Crashes" />
     <None Remove="Microsoft.AppCenter.Analytics" />
+    <None Remove="Helpers\" />
+    <None Remove="sqlite-net-pcl" />
+    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" />
@@ -76,5 +80,9 @@
       <DependentUpon>AddMilkLog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

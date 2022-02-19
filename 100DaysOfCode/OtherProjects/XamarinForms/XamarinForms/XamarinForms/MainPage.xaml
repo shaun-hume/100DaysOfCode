@@ -40,7 +40,7 @@
                         <ViewCell.ContextActions>
                             <MenuItem Clicked="DeleteLog"
                       CommandParameter="{Binding .}"
-                      Text="Delete" IsDestructive="True" />
+                      Text="Delete" IsDestructive="True"/>
                         </ViewCell.ContextActions>
                         <Grid Padding="10">
                             <Grid.ColumnDefinitions>
@@ -59,7 +59,7 @@
                                HorizontalOptions="Start"
                                WidthRequest="1"
                                Color="Black"/>
-                            <Label FontSize="Body" VerticalOptions="Center" HorizontalOptions="Start" Grid.Column="3" Text="{Binding SummaryOfEvent}" />
+                            <Label FontSize="Body" VerticalOptions="Center" HorizontalOptions="Start" Grid.Column="3" Text="{Binding SummaryOfEvent}" IsEnabled="{Binding SuccessfullySentToApi}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

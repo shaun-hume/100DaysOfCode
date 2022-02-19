@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Newtonsoft.Json;
 using RestSharp;
 using Xamarin.Forms;
+using XamarinForms.Helpers;
 
 namespace XamarinForms
 {
@@ -106,10 +107,16 @@ namespace XamarinForms
 
             var tempObservableList = new ObservableCollection<GenericLog>();
 
-            tempObservableList = UpdateMilkLogs(tempObservableList);
-            tempObservableList = UpdatePooLogs(tempObservableList);
-            tempObservableList = UpdateExerciseLogs(tempObservableList);
-            tempObservableList = UpdateSleepLogs(tempObservableList);
+            tempObservableList = GetOfflineLogs(tempObservableList);
+            try
+            {
+                tempObservableList = UpdateMilkLogs(tempObservableList);
+                tempObservableList = UpdatePooLogs(tempObservableList);
+                tempObservableList = UpdateExerciseLogs(tempObservableList);
+                tempObservableList = UpdateSleepLogs(tempObservableList);
+            }
+            catch (Exception){}
+
             var orderedList = tempObservableList.OrderBy(x => x.StartTime).ToList();
 
             foreach (var genericLog in orderedList)
@@ -130,6 +137,16 @@ namespace XamarinForms
                 GenericLogsView.IsVisible = true;
                 NoItemsLabel.IsVisible = false;
             }
+        }
+
+        private ObservableCollection<GenericLog> GetOfflineLogs(ObservableCollection<GenericLog> tempObservableList)
+        {
+            var genericLogs = DataHandler.ReturnOfflineLogs(CurrentlySelectedDate).Result;
+            foreach (var log in genericLogs)
+            {
+                tempObservableList.Add(log);
+            }
+            return tempObservableList;
         }
 
         private ObservableCollection<GenericLog> UpdateMilkLogs(ObservableCollection<GenericLog> tempObservableList)
@@ -311,6 +328,7 @@ namespace XamarinForms
             public DateTime FinishTime { get; set; }
             public string StartTimeShort { get { return StartTime.ToString("t"); } }
             public string SummaryOfEvent { get; set; }
+            public bool SuccessfullySentToApi { get; set; } = true;
 
             public event PropertyChangedEventHandler PropertyChanged;
         }
