@@ -21,10 +21,6 @@ namespace XamarinForms.Helpers
 			await database.SaveItemAsync(log);
 
 			var listOfLogsLocally = await database.GetItemsAsync();
-
-			await database.DeleteSynchronisedItems();
-
-			listOfLogsLocally = await database.GetItemsAsync();
 		}
 
 		public static async Task<List<GenericLog>> ReturnOfflineLogs(DateTime CurrentlySelectedDate)
@@ -40,7 +36,7 @@ namespace XamarinForms.Helpers
 					Icon = "🍼",
 					StartTime = x.StartTime.ToLocalTime(),
 					FinishTime = x.FinishTime.ToLocalTime(),
-					SummaryOfEvent = $"Fed {x.Amount}{x.MeasurementType}",
+					SummaryOfEvent = $"Fed {x.Amount}{x.MeasurementType} (This log is on this device only)",
 					SuccessfullySentToApi = false
 				}).ToList();
 

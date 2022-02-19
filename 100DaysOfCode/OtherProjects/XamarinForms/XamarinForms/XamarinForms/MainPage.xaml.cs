@@ -107,7 +107,7 @@ namespace XamarinForms
 
             var tempObservableList = new ObservableCollection<GenericLog>();
 
-            tempObservableList = GetOfflineLogs(tempObservableList);
+            tempObservableList = Task.Run(async() => await GetOfflineLogs(tempObservableList)).Result;
             try
             {
                 tempObservableList = UpdateMilkLogs(tempObservableList);
@@ -139,9 +139,9 @@ namespace XamarinForms
             }
         }
 
-        private ObservableCollection<GenericLog> GetOfflineLogs(ObservableCollection<GenericLog> tempObservableList)
+        private async Task<ObservableCollection<GenericLog>> GetOfflineLogs(ObservableCollection<GenericLog> tempObservableList)
         {
-            var genericLogs = DataHandler.ReturnOfflineLogs(CurrentlySelectedDate).Result;
+            var genericLogs = await DataHandler.ReturnOfflineLogs(CurrentlySelectedDate);
             foreach (var log in genericLogs)
             {
                 tempObservableList.Add(log);
