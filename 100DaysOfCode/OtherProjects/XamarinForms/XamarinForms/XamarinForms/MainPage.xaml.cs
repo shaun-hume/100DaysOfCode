@@ -71,7 +71,7 @@ namespace XamarinForms
 
         async Task SelectTypeOfNewLog()
         {
-            string answer = await DisplayActionSheet("What would you like to add?", "Cancel", null, new string[] { "Milk", "Poo", "Exercise", "Sleep" });
+            string answer = await DisplayActionSheet("What would you like to add?", "Cancel", null, new string[] { "Milk", "Nappy Change", "Exercise", "Sleep" });
             if (answer != "Cancel")
             {
                 switch (answer)
@@ -79,7 +79,7 @@ namespace XamarinForms
                     case "Milk":
                         await Navigation.PushAsync(new AddMilkLog());
                         break;
-                    case "Poo":
+                    case "Nappy Change":
                         await Navigation.PushAsync(new AddPooLog());
                         break;
                     case "Exercise":
@@ -107,7 +107,8 @@ namespace XamarinForms
 
             var tempObservableList = new ObservableCollection<GenericLog>();
 
-            tempObservableList = Task.Run(async() => await GetOfflineLogs(tempObservableList)).Result;
+            //removing offline capability for now
+            //tempObservableList = Task.Run(async() => await GetOfflineLogs(tempObservableList)).Result;
             try
             {
                 tempObservableList = UpdateMilkLogs(tempObservableList);

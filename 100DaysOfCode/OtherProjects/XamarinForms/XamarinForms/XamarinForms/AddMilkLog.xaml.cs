@@ -55,17 +55,18 @@ namespace XamarinForms
                 request.AddJsonBody(milkLog);
                 var response = await client.PostAsync(request);
 
-                await DataHandler.TryApiWithRequest(new Logs.Logs.MilkLog
-                {
-                    Type = milkLog.Type,
-                    Amount = milkLog.Amount,
-                    EstimatedAmount = milkLog.EstimatedAmount,
-                    MeasurementType = milkLog.MeasurementType,
-                    Comment = milkLog.Comment,
-                    StartTime = milkLog.StartTime,
-                    FinishTime = milkLog.FinishTime
-                }
-                );
+                //Disabling offline data handling for now
+                //await DataHandler.TryApiWithRequest(new Logs.Logs.MilkLog
+                //{
+                //    Type = milkLog.Type,
+                //    Amount = milkLog.Amount,
+                //    EstimatedAmount = milkLog.EstimatedAmount,
+                //    MeasurementType = milkLog.MeasurementType,
+                //    Comment = milkLog.Comment,
+                //    StartTime = milkLog.StartTime,
+                //    FinishTime = milkLog.FinishTime
+                //}
+                //);
                 await Navigation.PopAsync();
             }
             catch (Exception ex)
