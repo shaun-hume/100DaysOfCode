@@ -71,7 +71,7 @@ namespace XamarinForms
 
         async Task SelectTypeOfNewLog()
         {
-            string answer = await DisplayActionSheet("What would you like to add?", "Cancel", null, new string[] { "Milk", "Nappy Change", "Exercise", "Sleep" });
+            string answer = await DisplayActionSheet("What would you like to add?", "Cancel", null, new string[] { "Milk", "Breast Pump", "Nappy Change", "Exercise", "Sleep" });
             if (answer != "Cancel")
             {
                 switch (answer)
@@ -87,6 +87,9 @@ namespace XamarinForms
                         break;
                     case "Sleep":
                         await Navigation.PushAsync(new AddSleepLog());
+                        break;
+                    case "Breast Pump":
+                        await Navigation.PushAsync(new AddBreastPumpLog());
                         break;
                     default:
                         break;
@@ -115,6 +118,7 @@ namespace XamarinForms
                 tempObservableList = UpdatePooLogs(tempObservableList);
                 tempObservableList = UpdateExerciseLogs(tempObservableList);
                 tempObservableList = UpdateSleepLogs(tempObservableList);
+                tempObservableList = UpdateBreastPumpLogs(tempObservableList);
             }
             catch (Exception){}
 
@@ -253,6 +257,32 @@ namespace XamarinForms
 
         }
 
+        private ObservableCollection<GenericLog> UpdateBreastPumpLogs(ObservableCollection<GenericLog> tempObservableList)
+        {
+            var client = new WebClient();
+            var response = client.DownloadString("http://ubuntu:5000/BabyMonitor/GetBreastPump");
+            var breastPumpLogs = JsonConvert.DeserializeObject<List<BreastPumpLog>>(response);
+            var genericLogs = breastPumpLogs
+                .Where(x => x.OccurrenceTime.ToLocalTime() >= CurrentlySelectedDate && x.OccurrenceTime.ToLocalTime() < CurrentlySelectedDate.AddDays(1))
+                .Select(x => new GenericLog()
+                {
+                    ID = x.ID,
+                    Type = "BreastPump",
+                    Icon = "🍈🍈",
+                    StartTime = x.OccurrenceTime.ToLocalTime(),
+                    FinishTime = x.OccurrenceTime.ToLocalTime(),
+                    SummaryOfEvent = $"Pumped {x.Amount}{x.MeasurementType}"
+                }).ToList();
+
+            foreach (var log in genericLogs)
+            {
+                tempObservableList.Add(log);
+            }
+
+            return tempObservableList;
+
+        }
+
         public void GoBackADay()
         {
             CurrentlySelectedDate = CurrentlySelectedDate.AddDays(-1);
@@ -370,6 +400,40 @@ namespace XamarinForms
             }
 
             public List<string> Types { get; set; } = new List<string> { "Breast Milk", "Formula" };
+
+            public string HumanReadableAmount
+            {
+                get
+                {
+                    return Amount + " " + MeasurementType;
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+        }
+
+        public class BreastPumpLog : INotifyPropertyChanged
+        {
+            public int ID { get; set; }
+            public string Type { get; set; }
+            public decimal Amount { get; set; }
+            public string MeasurementType { get; set; }
+            public string Comment { get; set; }
+            public DateTime OccurrenceDate { get; set; }
+            public TimeSpan OccurrenceTimeSpan { get; set; }
+            private DateTime _occurrenceTime;
+            public DateTime OccurrenceTime
+            {
+                get => _occurrenceTime;
+                set
+                {
+                    _occurrenceTime = value;
+                    OccurrenceTimeSpan = value.TimeOfDay;
+                    OccurrenceDate = value;
+                }
+            }
+
+            public List<string> Types { get; set; } = new List<string> { "Left Breast Only", "Right Breast Only", "Both Breasts" };
 
             public string HumanReadableAmount
             {
