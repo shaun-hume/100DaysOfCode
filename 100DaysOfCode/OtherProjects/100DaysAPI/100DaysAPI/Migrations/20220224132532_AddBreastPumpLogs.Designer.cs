@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using _100DaysAPI.DbContexts;
@@ -11,9 +12,10 @@ using _100DaysAPI.DbContexts;
 namespace _100DaysAPI.Migrations
 {
     [DbContext(typeof(BabyDbContext))]
-    partial class BabyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220224132532_AddBreastPumpLogs")]
+    partial class AddBreastPumpLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

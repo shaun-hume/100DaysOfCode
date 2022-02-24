@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using _100DaysAPI.DbContexts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace _100DaysAPI.Controllers
 {
@@ -31,6 +33,14 @@ namespace _100DaysAPI.Controllers
         {
             var milkLog = _babyDbContext.MilkLogs.Where(x => x.ID == id).First();
             return Ok(milkLog);
+        }
+
+        [HttpGet]
+        [Route("GetBreastPump/{id}")]
+        public IActionResult GetBreastPump(int id)
+        {
+            var breastPumpLog = _babyDbContext.BreastPumpLogs.Where(x => x.ID == id).First();
+            return Ok(breastPumpLog);
         }
 
         [HttpGet]
@@ -100,6 +110,24 @@ namespace _100DaysAPI.Controllers
         }
 
         [HttpPost]
+        [Route("AddBreastPump")]
+        public IActionResult AddBreastPump([FromBody] BreastPumpLog breastPumpLog)
+        {
+            try
+            {
+                _babyDbContext.BreastPumpLogs.Add(breastPumpLog);
+                _babyDbContext.SaveChanges();
+
+                return Ok(breastPumpLog);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost]
         [Route("AddExercise")]
         public IActionResult AddExercise([FromBody] ExerciseLog exerciseLog)
         {
@@ -140,6 +168,21 @@ namespace _100DaysAPI.Controllers
             log.StartTime = milkLog.StartTime;
             log.FinishTime = milkLog.FinishTime;
             
+            _babyDbContext.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("UpdateBreastPump/{id}")]
+        public IActionResult UpdateBreastPump(int Id, [FromBody] BreastPumpLog breastPumpLog)
+        {
+            var log = _babyDbContext.BreastPumpLogs.Where(x => x.ID == Id).First();
+            log.Type = breastPumpLog.Type;
+            log.Amount = breastPumpLog.Amount;
+            log.MeasurementType = breastPumpLog.MeasurementType;
+            log.Comment = breastPumpLog.Comment;
+            log.OccurrenceTime = breastPumpLog.OccurrenceTime;
+
             _babyDbContext.SaveChanges();
             return Ok();
         }
@@ -194,6 +237,17 @@ namespace _100DaysAPI.Controllers
         public IActionResult DeleteMilk(int ID)
         {
             var log = _babyDbContext.MilkLogs.Where(x => x.ID == ID).First();
+            _babyDbContext.Remove(log);
+            _babyDbContext.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("DeleteBreastPump/{id}")]
+        public IActionResult DeleteBreastPump(int ID)
+        {
+            var log = _babyDbContext.BreastPumpLogs.Where(x => x.ID == ID).First();
             _babyDbContext.Remove(log);
             _babyDbContext.SaveChanges();
 

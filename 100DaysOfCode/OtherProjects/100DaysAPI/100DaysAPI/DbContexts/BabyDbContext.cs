@@ -9,6 +9,7 @@ namespace _100DaysAPI.DbContexts
         public DbSet<SleepLog> SleepLogs { get; set; }
         public DbSet<ExerciseLog> ExerciseLogs { get; set; }
         public DbSet<PooLog> PooLogs { get; set; }
+        public DbSet<BreastPumpLog> BreastPumpLogs { get; set; }
 
         private string _connectionString;
 
@@ -52,6 +53,16 @@ namespace _100DaysAPI.DbContexts
         public string Type { get; set; }
         public string? Comment { get; set; }
         public string Colour { get; set; }
+        public DateTime OccurrenceTime { get; set; }
+    }
+
+    public class BreastPumpLog
+    {
+        public int ID { get; set; }
+        public string Type { get; set; }
+        public decimal Amount { get; set; }
+        public string MeasurementType { get; set; }
+        public string? Comment { get; set; }
         public DateTime OccurrenceTime { get; set; }
     }
 }
